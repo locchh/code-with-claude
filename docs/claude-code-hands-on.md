@@ -18,9 +18,18 @@
 ## 3. CLAUDE.md ✅
 
 `/init` to create CLAUDE.md file
-`/memory` to save context in user-level `~/.claude/CLAUDE.md` or project-level `./CLAUDE.md`
 
-## 4. Skills
+`/memory` to save context. You can place CLAUDE.md files in several locations:
+
+- User-level: `~/.claude/CLAUDE.md` - applies to all projects
+
+- Project-level: `./CLAUDE.md` - applies only to current project
+
+- Parent directories: Useful for monorepos where both `root/CLAUDE.md` and `root/foo/CLAUDE.md` are pulled in automatically
+
+- Child directories: Claude pulls in child `CLAUDE.md` files on demand when working with files in those directories
+
+## 4. [Skills](https://code.claude.com/docs/en/skills)
 
 ## 5. Subagents
 
