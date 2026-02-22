@@ -16,7 +16,7 @@
 - `"Think hard"` to force extended thinking
 - Press `Cmd+O` to display the thinking
 
-## 3. CLAUDE.md ✅
+## 3. [CLAUDE.md](https://code.claude.com/docs/en/memory) ✅
 
 `/init` to create CLAUDE.md file
 
