@@ -71,7 +71,7 @@ Run `claude mcp add` to connect external tools like Notion, Figma, or your datab
 
 Run `/plugin` to browse the marketplace. Plugins add skills, tools, and integrations without configuration.
 
-## 10. Manage your session ✅
+## 10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session) ✅
 
 `Esc` - Stop Claude mid-action with the Esc key.
 
@@ -99,7 +99,7 @@ Use `/rename` to give sessions descriptive names ("oauth-migration", "debugging-
 
 ## 11. Custom slash commands
 
-## 12. Worktrees, tmux
+## 12. Worktrees
 
 ## 13. Spec-driven
 
