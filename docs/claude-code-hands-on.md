@@ -84,6 +84,6 @@ Use `/rename` to give sessions descriptive names ("oauth-migration", "debugging-
 
 ## 13. Spec-driven
 
-- Plannotator
-- BMAD
-- Spec-kit
+- [Plannotator](https://github.com/backnotprop/plannotator)
+- [BMAD](https://github.com/bmad-code-org/BMAD-METHOD)
+- [Spec-kit](https://github.com/github/spec-kit)
