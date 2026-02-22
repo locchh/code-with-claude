@@ -6,10 +6,29 @@
 
 [Best Practices](https://code.claude.com/docs/en/best-practices)
 
-
 ## 1. [Settings](https://code.claude.com/docs/en/settings) ✅
 
-## 2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), Extended Thinking ✅
+Claude Code uses a scope system to determine where configurations apply and who they’re shared with.
+
+| Scope | Location | Who it affects | Shared with team? |
+|-------|----------|----------------|-------------------|
+| Managed | System-level `managed-settings.json` | All users on the machine | Yes (deployed by IT) |
+| User | `~/.claude/` directory | You, across all projects | No |
+| Project | `.claude/` in repository | All collaborators on this repository | Yes (committed to git) |
+| Local | `.claude/*.local.*` files | You, in this repository only | No (gitignored) |
+
+Scopes apply to many Claude Code features:
+
+| Feature | User location | Project location | Local location |
+|---------|---------------|------------------|----------------|
+| Settings | `~/.claude/settings.json` | `.claude/settings.json` | `.claude/settings.local.json` |
+| Subagents | `~/.claude/agents/` | `.claude/agents/` | — |
+| Skills | `~/.claude/skills/` | `.claude/skills/` | — |
+| MCP servers | `~/.claude.json` | `.mcp.json` | `~/.claude.json` (per-project) |
+| Plugins | `~/.claude/settings.json` | `.claude/settings.json` | `.claude/settings.local.json` |
+| CLAUDE.md | `~/.claude/CLAUDE.md` | `CLAUDE.md` or `.claude/CLAUDE.md` | `CLAUDE.local.md` |
+
+## 2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), [Extended Thinking](https://code.claude.com/docs/en/common-workflows#use-extended-thinking-thinking-mode) ✅
 
 - `Shift-Tab` x2 to toggle thinking mode
 - Press `Ctrl+G` to view and edit plan 
