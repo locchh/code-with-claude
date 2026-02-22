@@ -46,7 +46,7 @@ Run `claude mcp add` to connect external tools like Notion, Figma, or your datab
 
 ## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide)
 
-Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly
+[Hooks](https://code.claude.com/docs/en/hooks) are user-defined shell commands or LLM prompts that execute automatically at specific points in Claude Code’s lifecycle. Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly
 
 ## 9. [Plugins](https://code.claude.com/docs/en/plugins)
 
@@ -68,7 +68,7 @@ For more control, run `/compact <instructions>`, like `/compact Focus on the API
 
 Delegate research with "use subagents to investigate X". They explore in a separate context, keeping your main conversation clean for implementation.
 
-Run `claude --continue` to pick up where you left off, or `--resume` to choose from recent sessions.
+Run `claude --resume` to pick up where you left off, or `--resume` to choose from recent sessions.
 
 Run `claude --continue` to resume the most recent conversation.
 
