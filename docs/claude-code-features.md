@@ -1,5 +1,7 @@
 # Claude Code Features
 
+Claude code features are organized into several categories, each serving a specific purpose in enhancing your development workflow. Here's a comprehensive overview of these features:
+
 | # | Feature | Priority level | What it does | When to use it | Example | When it loads | What loads | Context cost |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [CLAUDE.md](https://code.claude.com/docs/en/memory) | Additive (all levels contribute) | Persistent context loaded every conversation | Project conventions, "always do X" rules | "Use pnpm, not npm. Run tests before committing." | Session start | Full content | Every request |
@@ -11,3 +13,31 @@
 | 7 | [Plugins](https://code.claude.com/docs/en/plugins) | Namespaced (avoids conflicts) | Bundles skills, hooks, subagents, and MCP servers into a single installable unit | Reuse setup across repositories or distribute to others via marketplace | /my-plugin:review uses namespaced skill from plugin | Session start | All bundled components (skills, hooks, subagents, MCP servers) | Depends on bundled components |
 
 [More details](https://code.claude.com/docs/en/features-overview)
+
+Claude Code has access to a set of powerful tools that help it understand and modify your codebase:
+
+| Tool | Description | Permission Required |
+| --- | --- | --- |
+| AskUserQuestion | Asks multiple-choice questions to gather requirements or clarify ambiguity | No |
+| Bash | Executes shell commands in your environment (see Bash tool behavior below) | Yes |
+| TaskOutput | Retrieves output from a background task (bash shell or subagent) | No |
+| Edit | Makes targeted edits to specific files | Yes |
+| ExitPlanMode | Prompts the user to exit plan mode and start coding | Yes |
+| Glob | Finds files based on pattern matching | No |
+| Grep | Searches for patterns in file contents | No |
+| KillShell | Kills a running background bash shell by its ID | No |
+| MCPSearch | Searches for and loads MCP tools when tool search is enabled | No |
+| NotebookEdit | Modifies Jupyter notebook cells | Yes |
+| Read | Reads the contents of files | No |
+| Skill | Executes a skill within the main conversation | Yes |
+| Task | Runs a sub-agent to handle complex, multi-step tasks | No |
+| TaskCreate | Creates a new task in the task list | No |
+| TaskGet | Retrieves full details for a specific task | No |
+| TaskList | Lists all tasks with their current status | No |
+| TaskUpdate | Updates task status, dependencies, details, or deletes tasks | No |
+| WebFetch | Fetches content from a specified URL | Yes |
+| WebSearch | Performs web searches with domain filtering | Yes |
+| Write | Creates or overwrites files | Yes |
+| LSP | Code intelligence via language servers. Reports type errors and warnings automatically after file edits. Also supports navigation operations: jump to definitions, find references, get type info, list symbols, find implementations, trace call hierarchies. Requires a code intelligence plugin and its language server binary | No |
+
+[More details](https://code.claude.com/docs/en/settings#tools-available-to-claude)
