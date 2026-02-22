@@ -19,6 +19,7 @@
 
 ## Skills & Plugins
 
+- [Official Anthropic Skills](https://github.com/anthropics/skills) — Official skill repository by Anthropic
 - [ai1-skills](https://github.com/hieutrtr/ai1-skills) — Community-built skill collection on GitHub
 - [AI Templates Skills](https://www.aitmpl.com/skills) — Skill templates and examples
 - [SkillsMP](https://skillsmp.com/) — Skills marketplace
@@ -36,6 +37,8 @@
 
 ---
 
-## Agent Frameworks
+## Frameworks & Miscellaneous
+
+- [tmux](https://github.com/tmux/tmux/wiki) — Terminal multiplexer for session management
 
 - [LangChain Deep Agents CLI](https://docs.langchain.com/oss/python/deepagents/cli/overview) — CLI overview for LangChain's deep agent system
