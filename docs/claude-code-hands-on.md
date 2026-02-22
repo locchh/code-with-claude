@@ -7,7 +7,7 @@
 [Best Practices](https://code.claude.com/docs/en/best-practices)
 
 
-## 1. [Settings](https://code.claude.com/docs/en/settings)
+## 1. [Settings](https://code.claude.com/docs/en/settings) ✅
 
 ## 2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), Extended Thinking ✅
 
@@ -52,7 +52,7 @@ Run `claude mcp add` to connect external tools like Notion, Figma, or your datab
 
 Run `/plugin` to browse the marketplace. Plugins add skills, tools, and integrations without configuration.
 
-## 10. Manage your session
+## 10. Manage your session ✅
 
 `Esc` - Stop Claude mid-action with the Esc key.
 
