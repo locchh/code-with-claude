@@ -12,6 +12,8 @@ https://skillsmp.com/
 
 https://claudemarketplaces.com/
 
+https://github.com/anthropics/claude-plugins-official
+
 https://plannotator.ai/
 
 https://docs.bmad-method.org/
