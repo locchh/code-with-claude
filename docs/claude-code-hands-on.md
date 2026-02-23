@@ -189,6 +189,12 @@ their codebase. Create an agent team to explore this from different angles: one
 teammate on UX, one on technical architecture, one playing devil's advocate.
 ```
 
+You can specific model for teammate by:
+
+```
+Use model Haiku for each teammate
+```
+
 From there, Claude creates a team with a [shared task list](https://code.claude.com/docs/en/interactive-mode#task-list), spawns teammates for each perspective, has them explore the problem, synthesizes findings, and attempts to [clean up the team](https://code.claude.com/docs/en/agent-teams#clean-up-the-team) when finished. Each teammate has its own context window. When spawned, a teammate loads the same project context as a regular session: CLAUDE.md, MCP servers, and skills. It also receives the spawn prompt from the lead. The lead’s conversation history does not carry over. Teammate messaging:
 
 - **message**: send a message to one specific teammate
