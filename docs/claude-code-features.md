@@ -135,3 +135,23 @@ For example, you might use CLAUDE.md for project conventions, a skill for your d
 | Skill + Subagent | A skill spawns subagents for parallel work | `/review` skill kicks off security, performance, and style subagents that work in isolated context |
 | CLAUDE.md + Skills | CLAUDE.md holds always-on rules; skills hold reference material loaded on demand | CLAUDE.md says "follow our API conventions," a skill contains the full API style guide |
 | Hook + MCP | A hook triggers external actions through MCP | Post-edit hook sends a Slack notification when Claude modifies critical files |
+
+## Shortcuts
+
+| Mode | Shortcut | Action |
+|------|----------|--------|
+| **Input modes** | `!` | Switch to bash mode |
+| | `/` | Switch to commands mode |
+| | `@` | Switch to file paths mode |
+| | `&` | Switch to background mode |
+| **Navigation** | `Shift + Tab` (double tap) | Auto-accept edits |
+| | `Ctrl + O` | Toggle verbose output |
+| | `Ctrl + T` | Toggle tasks view |
+| | `Ctrl + G` | Edit in $EDITOR |
+| | `Shift + Enter` | Insert newline |
+| | `Meta + P` | Switch model |
+| **Control** | `Double tap Esc` | Clear input |
+| | `Ctrl + Shift + -` | Undo |
+| | `Ctrl + Z` | Suspend |
+| | `Ctrl + S` | Stash prompt |
+| **Customization** | `/keybindings` | Customize keybindings |
