@@ -70,11 +70,23 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 ## 4. [Skills](https://code.claude.com/docs/en/skills)
 
-Create SKILL.md files in `.claude/skills/` to give Claude domain knowledge and reusable workflows.
+Create `SKILL.md`
+ files in `.claude/skills/` to give Claude domain knowledge and reusable workflows.
 
-## 5. [Subagents](https://code.claude.com/docs/en/sub-agents)
+## 5. [Subagents](https://code.claude.com/docs/en/sub-agents) ✅
 
-Define specialized assistants in `.claude/agents/` that Claude can delegate to for isolated tasks.
+Define specialized assistants at project scope in `.claude/agents/` or user scope in `~/.claude/agents/` that Claude can delegate to for isolated tasks. Use the `/agents` command to generate with Claude or configure manually. You can also create subagents manually using markdown files.
+
+**Tip:** When creating subagents with Claude, you only need to write a clean description of the subagent and configure the tools - Claude will generate the rest. Subagents have access to these tools:
+
+- Read-only tools
+- Edit tools  
+- Execution tools
+- MCP tools
+- Other tools
+
+Or all tools.
+
 
 ## 6. [Agent teams](https://code.claude.com/docs/en/agent-teams)
 
