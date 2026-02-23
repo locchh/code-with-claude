@@ -13,7 +13,7 @@
 - [3. Memory](#3-memory) ✅
 - [4. Skills](#4-skills) ✅
 - [5. Subagents](#5-subagents) ✅
-- [6. Agent teams](#6-agent-teams)
+- [6. Agent teams](#6-agent-teams) ✅
 - [7. MCP](#7-mcp) ✅
 - [8. Hooks](#8-hooks)
 - [9. Plugins](#9-plugins)
@@ -122,6 +122,15 @@ Agent teams let you coordinate multiple Claude Code instances working together. 
 | **Best for** | Focused tasks where only the result matters | Complex work requiring discussion and collaboration |
 | **Token cost** | Lower: results summarized back to main context | Higher: each teammate is a separate Claude instance |
 
+An agent team consists of:
+
+| Component | Role |
+|-----------|------|
+| **Team lead** | The main Claude Code session that creates the team, spawns teammates, and coordinates work. Team config `~/.claude/teams/{team-name}/config.json` |
+| **Teammates** | Separate Claude Code instances that each work on assigned tasks |
+| **Task list** | Shared list of work items that teammates claim and complete. Task list shared at `~/.claude/tasks/{team-name}/` |
+| **Mailbox** | Messaging system for communication between agents |
+
 You can choice display mode:
 - **In-process**: All teammates run in the same session
 - **Split panes**: Each teammate runs in its own pane
@@ -142,6 +151,19 @@ cat > ~/.claude/settings.json <<EOF
 }
 EOF
 ```
+
+Split-pane mode requires either [tmux](https://github.com/tmux/tmux/wiki) or iTerm2 with the [it2](https://github.com/mkusaka/it2) CLI. To install manually:
+
+```bash
+# Install tmux
+sudo apt install -y tmux
+tmux --help
+
+# Install it2 (for iTerm2 users)
+# Note: it2 is specifically for iTerm2 on macOS, not available on Linux
+# For Linux users, tmux is sufficient
+```
+
 **Step 2: Start a tmux session**
 
 ```bash
@@ -152,11 +174,53 @@ tmux new-session -s <session_name>
 
 ```bash
 claude # Or claude --dangerously-skip-permissions
+# Teammates start with the lead’s permission settings
+# If the lead runs with --dangerously-skip-permissions, all teammates do too.
+# After spawning, you can change individual teammate modes, but you can’t set per-teammate modes at spawn time.
 ```
 
-**Step 4: Clean up**
+**Step 4: Create a team and spawn teammates**
 
-When you done, exit claude code and kill tmux session
+After enabling agent teams, tell Claude to create an agent team and describe the task and the team structure you want in natural language. Claude creates the team, spawns teammates, and coordinates work based on your prompt. This example works well because the three roles are independent and can explore the problem without waiting on each other:
+
+```
+I'm designing a CLI tool that helps developers track TODO comments across
+their codebase. Create an agent team to explore this from different angles: one
+teammate on UX, one on technical architecture, one playing devil's advocate.
+```
+
+From there, Claude creates a team with a [shared task list](https://code.claude.com/docs/en/interactive-mode#task-list), spawns teammates for each perspective, has them explore the problem, synthesizes findings, and attempts to [clean up the team](https://code.claude.com/docs/en/agent-teams#clean-up-the-team) when finished. Each teammate has its own context window. When spawned, a teammate loads the same project context as a regular session: CLAUDE.md, MCP servers, and skills. It also receives the spawn prompt from the lead. The lead’s conversation history does not carry over. Teammate messaging:
+
+- **message**: send a message to one specific teammate
+- **broadcast**: send to all teammates simultaneously. Use sparingly, as costs scale with team size.
+
+**Step 5: Clean up**
+
+When you done, exit claude code and kill tmux session. To gracefully end a teammate’s session:
+
+```
+Ask the researcher teammate to shut down
+```
+
+To clean up a team:
+
+```
+Clean up the team
+```
+
+To kill tmux session
+
+```bash
+tmux ls
+tmux kill-session -t <session-name>
+```
+
+Explore related approaches for parallel work and delegation:
+
+- **Lightweight delegation**: subagents spawn helper agents for research or verification within your session, better for tasks that don’t need inter-agent coordination
+
+- **Manual parallel sessions**: Git worktrees let you run multiple Claude Code sessions yourself without automated team coordination
+
 
 ## 7. [MCP](https://code.claude.com/docs/en/mcp)
 
@@ -316,7 +380,7 @@ For built-in commands like /help and /compact, see [interactive mode](https://co
 
 Custom slash commands have been merged into skills. A file at `.claude/commands/review.md` and a skill at `.claude/skills/review/SKILL.md` both create `/review` and work the same way. Your existing `.claude/commands/` files keep working. Skills add optional features: a directory for supporting files, frontmatter to [control whether you or Claude invokes them](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill), and the ability for Claude to load them automatically when relevant.
 
-## 12. Worktrees
+## 12. [Worktrees](https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees)
 
 ## 13. Claude code on GitHub
 
