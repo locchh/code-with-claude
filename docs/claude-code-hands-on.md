@@ -106,6 +106,58 @@ Or all tools.
 
 ## 6. [Agent teams](https://code.claude.com/docs/en/agent-teams)
 
+Agent teams let you coordinate multiple Claude Code instances working together. One session acts as the team lead, coordinating work, assigning tasks, and synthesizing results. Teammates work independently, each in its own context window, and communicate directly with each other. Unlike subagents, which run within a single session and can only report back to the main agent, you can also interact with individual teammates directly without going through the lead.
+
+**When to use agent teams:**
+- **Research and review:** Multiple teammates investigate different aspects simultaneously
+- **New modules/features:** Each teammate owns separate pieces without conflicts  
+- **Debugging with competing hypotheses:** Test different theories in parallel
+- **Cross-layer coordination:** Frontend, backend, and tests owned by different teammates
+
+| Feature | Subagents | Agent teams |
+|---------|-----------|-------------|
+| **Context** | Own context window; results return to the caller | Own context window; fully independent |
+| **Communication** | Report results back to the main agent only | Teammates message each other directly |
+| **Coordination** | Main agent manages all work | Shared task list with self-coordination |
+| **Best for** | Focused tasks where only the result matters | Complex work requiring discussion and collaboration |
+| **Token cost** | Lower: results summarized back to main context | Higher: each teammate is a separate Claude instance |
+
+You can choice display mode:
+- **In-process**: All teammates run in the same session
+- **Split panes**: Each teammate runs in its own pane
+
+**Step 1: Enable agent teams and split panes**
+
+Run this one to enable agent teams and split panes:
+
+```bash
+cat > ~/.claude/settings.json <<EOF
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "preference": {
+    "tmuxSplitPanes": true
+  }
+}
+EOF
+```
+**Step 2: Start a tmux session**
+
+```bash
+tmux new-session -s <session_name>
+```
+
+**Step 3: Launch claude code**
+
+```bash
+claude # Or claude --dangerously-skip-permissions
+```
+
+**Step 4: Clean up**
+
+When you done, exit claude code and kill tmux session
+
 ## 7. [MCP](https://code.claude.com/docs/en/mcp)
 
 Usage:
