@@ -19,9 +19,9 @@
 - [9. Plugins](#9-plugins)
 - [10. Manage your session](#10-manage-your-session) ✅
 - [11. Custom slash commands](#11-custom-slash-commands) ✅
-- [12. Worktrees](#12-worktrees)
+- [12. Worktrees](#12-worktrees) ✅
 - [13. Claude code on GitHub](#13-claude-code-on-github) ✅
-- [14. Spec-driven](#14-spec-driven)
+- [14. Spec-driven](#14-spec-driven) 🔥
 
 ## 1. [Settings](https://code.claude.com/docs/en/settings)
 
@@ -104,7 +104,6 @@ Define specialized assistants at project scope in `.claude/agents/` or user scop
 - Other tools
 
 Or all tools.
-
 
 ## 6. [Agent teams](https://code.claude.com/docs/en/agent-teams)
 
@@ -395,6 +394,123 @@ For built-in commands like /help and /compact, see [interactive mode](https://co
 Custom slash commands have been merged into skills. A file at `.claude/commands/review.md` and a skill at `.claude/skills/review/SKILL.md` both create `/review` and work the same way. Your existing `.claude/commands/` files keep working. Skills add optional features: a directory for supporting files, frontmatter to [control whether you or Claude invokes them](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill), and the ability for Claude to load them automatically when relevant.
 
 ## 12. [Worktrees](https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees)
+
+### Basic
+
+Git worktree is a feature of Git that lets you check out multiple branches of the same repository at the same time — in different folders.
+
+Traditional `git checkout`:
+```bash
+git checkout -b feature-x
+# work
+git checkout main
+git merge feature-x
+```
+
+Use `git worktree`:
+```bash
+git worktree add -b feature-x ../feature-x
+# work in ../feature-x
+git merge feature-x   # from main worktree
+```
+
+Comparation
+
+| Topic             | `git checkout` | `git worktree`       |
+| ----------------- | -------------- | -------------------- |
+| HEADs             | One            | Multiple             |
+| Parallel branches | ❌              | ✅                  |
+| Stash needed      | Often          | Rare                 |
+| Context switching | High           | Low                  |
+| Disk usage        | Low            | Low (shared objects) |
+| Mental load       | Higher         | Lower                |
+
+
+Create a new worktree. Use `git worktree add <folder> <branch>`:
+```bash
+# Create a new folder ../main-fix
+# Checkout branch main inside it
+git worktree add ../main-fix main
+```
+
+If branch doesn't exist. Use `git worktree add -b <branch_name> <folder>`:
+```bash
+# Creates branch from current HEAD
+# Create folder ../feature-payment
+# Checkout that new branch inside it
+git worktree add -b feature-payment ../feature-payment
+```
+
+Create commit:
+
+```bash
+cd ../feature-payment
+
+# Edit files
+git add .
+git commit -m "implement feature payment"
+
+# When Finished
+cd ../myapp
+git merge feature-payment
+```
+
+Merge the Branch:
+```bash
+git merge feature-login
+```
+
+List worktrees:
+```bash
+git worktree list
+```
+
+Remove worktree:
+```bash
+git worktree remove ../main-fix
+```
+
+There are multiplace to store worktrees:
+- Windsurf keep it in `~/.windsurf/worktrees/<repo_name>`
+- Git keep it in `~/.git/worktrees/<repo_name>`
+- Claude code keep it in `~/.claude/worktrees/<repo_name>`
+
+### Run parallel Claude Code sessions with Git worktrees
+
+When working on multiple tasks at once, you need each Claude session to have its own copy of the codebase so changes don’t collide. Git worktrees solve this by creating separate working directories that each have their own files and branch, while sharing the same repository history and remote connections. This means you can have Claude working on a feature in one worktree while fixing a bug in another, without either session interfering with the other.
+
+```bash
+# Start Claude in a worktree named "feature-auth"
+# Creates .claude/worktrees/feature-auth/ with a new branch
+claude --worktree feature-auth
+
+# Start another session in a separate worktree
+claude --worktree bugfix-123
+
+# If you omit the name, Claude generates a random one automatically:
+claude --worktree
+```
+
+When you run a command like  `claude --worktree feature-auth` it similar to `git worktree add -b feature-auth ../feature-auth main` or if the branch already exists `git worktree add ../feature-auth feature-auth`. Worktrees are created at `<repo>/.claude/worktrees/<name>` and branch from the default remote branch. The worktree branch is named `worktree-<name>`.
+
+Subagents can also use worktree isolation to work in parallel without conflicts. Ask Claude like this:
+
+```
+Spawn 5 agents in parallel. Each in it own isolated worktree, to handle these features
+```
+
+Worktree isolation works with git by default. For other version control systems like SVN, Perforce, or Mercurial, configure [WorktreeCreate and WorktreeRemove hooks](https://code.claude.com/docs/en/hooks#worktreecreate) to provide custom worktree creation and cleanup logic. When configured, these hooks replace the default git behavior when you use `--worktree`. For automated coordination of parallel sessions with shared tasks and messaging, see agent teams.
+
+Before claude code support this feature we must:
+
+```bash
+git worktree add -b feature-x ../feature-x
+cd ../feature-x
+claude
+# Implement feature x
+cd ../myapp
+git merge feature-x
+```
 
 ## 13. Claude code on GitHub
 
