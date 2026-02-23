@@ -17,7 +17,7 @@
 
 ---
 
-## Skills & Plugins
+## Skills, Plugins and Actions
 
 - [Official Anthropic Skills](https://github.com/anthropics/skills) — Official skill repository by Anthropic
 - [ai1-skills](https://github.com/hieutrtr/ai1-skills) — Community-built skill collection on GitHub
@@ -25,6 +25,8 @@
 - [SkillsMP](https://skillsmp.com/) — Skills marketplace
 - [Claude Marketplaces](https://claudemarketplaces.com/) — Browse and share Claude plugins
 - [Official Anthropic Plugins](https://github.com/anthropics/claude-plugins-official) — Official plugin repository by Anthropic
+
+- [Claude Code Actions](https://github.com/anthropics/claude-code-action) — Claude Code Actions
 
 ---
 
