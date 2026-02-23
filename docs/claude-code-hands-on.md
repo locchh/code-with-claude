@@ -89,6 +89,8 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 Create `SKILL.md` file and skill folder at project scope in `.claude/skills/` or user scope in `~/.claude/skills/` to give Claude domain knowledge and reusable workflows.
 
+**Tip**: You should pair-working with Claude for a task first, then after the end of session, asking claude to create a skill for the task.
+
 ## 5. [Subagents](https://code.claude.com/docs/en/sub-agents)
 
 Define specialized assistants at project scope in `.claude/agents/` or user scope in `~/.claude/agents/` that Claude can delegate to for isolated tasks. Use the `/agents` command to generate with Claude or configure manually. You can also create subagents manually using markdown files.
