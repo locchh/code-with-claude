@@ -68,7 +68,7 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 - Child directories: Claude pulls in child `CLAUDE.md` files on demand when working with files in those directories
 
-## 4. [Skills](https://code.claude.com/docs/en/skills)
+## 4. [Skills](https://code.claude.com/docs/en/skills) ✅
 
 Create `SKILL.md` file and skill folder at project scope in `.claude/skills/` or user scope in `~/.claude/skills/` to give Claude domain knowledge and reusable workflows.
 
