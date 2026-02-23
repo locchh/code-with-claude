@@ -233,13 +233,7 @@ Custom slash commands have been merged into skills. A file at `.claude/commands/
 
 ## 12. Worktrees
 
-## 13. Spec-driven
-
-- [Plannotator](https://github.com/backnotprop/plannotator)
-- [BMAD](https://github.com/bmad-code-org/BMAD-METHOD)
-- [Spec-kit](https://github.com/github/spec-kit)
-
-## 14. Claude code on GitHub ✅
+## 13. Claude code on GitHub ✅
 
 Claude Code supports 3 commands related to GitHub:
 
@@ -253,3 +247,9 @@ After connecting Claude with GitHub, you can run `/install-github-app` to instal
 - Claude Code Review - Automated code review on new PRs
 
 [more details](https://github.com/marketplace/actions/claude-code-action-official)
+
+## 14. Spec-driven
+
+- [Plannotator](https://github.com/backnotprop/plannotator)
+- [BMAD](https://github.com/bmad-code-org/BMAD-METHOD)
+- [Spec-kit](https://github.com/github/spec-kit)
