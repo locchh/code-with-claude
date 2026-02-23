@@ -178,7 +178,7 @@ Example of run command on local scope:
 ```bash
 claude mcp add -s user search-papers -- uv --directory /home/locch/Works/mcp-server-papers run mcp_server_papers
 ```
-After add, you can run `claude mcp serve` to start the server and run `claude mcp list` to see the list of servers.
+After add, you can run `claude mcp serve` to start the server and run `claude mcp list` to see the list of servers. In interactive mode use `/mcp`
 
 ## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide)
 
