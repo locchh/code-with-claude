@@ -6,7 +6,24 @@
 
 [Best Practices](https://code.claude.com/docs/en/best-practices)
 
-## 1. [Settings](https://code.claude.com/docs/en/settings) ✅
+## Table of Contents
+
+- [1. Settings](#1-settings) ✅
+- [2. Plan Mode, Extended Thinking](#2-plan-mode-extended-thinking) ✅
+- [3. Memory](#3-memory) ✅
+- [4. Skills](#4-skills) ✅
+- [5. Subagents](#5-subagents) ✅
+- [6. Agent teams](#6-agent-teams)
+- [7. MCP](#7-mcp) ✅
+- [8. Hooks](#8-hooks)
+- [9. Plugins](#9-plugins)
+- [10. Manage your session](#10-manage-your-session) ✅
+- [11. Custom slash commands](#11-custom-slash-commands) ✅
+- [12. Worktrees](#12-worktrees)
+- [13. Claude code on GitHub](#13-claude-code-on-github) ✅
+- [14. Spec-driven](#14-spec-driven)
+
+## 1. [Settings](https://code.claude.com/docs/en/settings)
 
 Claude Code uses a scope system to determine where configurations apply and who they’re shared with.
 
@@ -28,14 +45,14 @@ Scopes apply to many Claude Code features:
 | Plugins | `~/.claude/settings.json` | `.claude/settings.json` | `.claude/settings.local.json` |
 | CLAUDE.md | `~/.claude/CLAUDE.md` | `CLAUDE.md` or `.claude/CLAUDE.md` | `CLAUDE.local.md` |
 
-## 2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), [Extended Thinking](https://code.claude.com/docs/en/common-workflows#use-extended-thinking-thinking-mode) ✅
+## 2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), [Extended Thinking](https://code.claude.com/docs/en/common-workflows#use-extended-thinking-thinking-mode)
 
 - `Shift-Tab` x2 to toggle thinking mode
 - Press `Ctrl+G` to view and edit plan 
 - `"Think hard"` to force extended thinking
 - Press `Cmd+O` to display the thinking
 
-## 3. [Memory](https://code.claude.com/docs/en/memory) ✅
+## 3. [Memory](https://code.claude.com/docs/en/memory)
 
 Claude Code has two kinds of memory that persist across sessions:
 
@@ -68,11 +85,11 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 - Child directories: Claude pulls in child `CLAUDE.md` files on demand when working with files in those directories
 
-## 4. [Skills](https://code.claude.com/docs/en/skills) ✅
+## 4. [Skills](https://code.claude.com/docs/en/skills)
 
 Create `SKILL.md` file and skill folder at project scope in `.claude/skills/` or user scope in `~/.claude/skills/` to give Claude domain knowledge and reusable workflows.
 
-## 5. [Subagents](https://code.claude.com/docs/en/sub-agents) ✅
+## 5. [Subagents](https://code.claude.com/docs/en/sub-agents)
 
 Define specialized assistants at project scope in `.claude/agents/` or user scope in `~/.claude/agents/` that Claude can delegate to for isolated tasks. Use the `/agents` command to generate with Claude or configure manually. You can also create subagents manually using markdown files.
 
@@ -89,7 +106,7 @@ Or all tools.
 
 ## 6. [Agent teams](https://code.claude.com/docs/en/agent-teams)
 
-## 7. [MCP](https://code.claude.com/docs/en/mcp) ✅
+## 7. [MCP](https://code.claude.com/docs/en/mcp)
 
 Usage:
 
@@ -199,7 +216,7 @@ After add, you can run `claude mcp serve` to start the server and run `claude mc
 
 Run `/plugin` to browse the marketplace. Plugins add skills, tools, and integrations without configuration.
 
-## 10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session) ✅
+## 10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session)
 
 `Esc` - Stop Claude mid-action with the Esc key.
 
@@ -241,7 +258,7 @@ To reference specific lines from multiple files, use `@file#line-range` syntax i
 
 You can combine multiple file references in a single prompt.
 
-## 11. Custom slash commands ✅
+## 11. Custom slash commands
 
 For built-in commands like /help and /compact, see [interactive mode](https://code.claude.com/docs/en/interactive-mode#built-in-commands).
 
@@ -249,7 +266,7 @@ Custom slash commands have been merged into skills. A file at `.claude/commands/
 
 ## 12. Worktrees
 
-## 13. Claude code on GitHub ✅
+## 13. Claude code on GitHub
 
 Claude Code supports 3 commands related to GitHub:
 
