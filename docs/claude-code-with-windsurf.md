@@ -6,6 +6,12 @@
 
 ## 3. Selected lines
 
-## 4. Clearly view (code diff, code changes, code map)
+## 4. Clearly view
+- File content
+- Code diff
+- Code changes
+- Code map
+- Git graph
+- Split panes (like tmux)
 
 ## 5. Arena mode
