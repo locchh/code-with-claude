@@ -15,8 +15,8 @@
 - [5. Subagents](#5-subagents) ✅
 - [6. Agent teams](#6-agent-teams) ✅
 - [7. MCP](#7-mcp) ✅
-- [8. Hooks](#8-hooks)
-- [9. Plugins](#9-plugins)
+- [8. Hooks](#8-hooks) ✅
+- [9. Plugins](#9-plugins) ✅
 - [10. Manage your session](#10-manage-your-session) ✅
 - [11. Custom slash commands](#11-custom-slash-commands) ✅
 - [12. Worktrees](#12-worktrees) ✅
@@ -339,11 +339,310 @@ After add, you can run `claude mcp serve` to start the server and run `claude mc
 
 ## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide)
 
-[Hooks](https://code.claude.com/docs/en/hooks) are user-defined shell commands or LLM prompts that execute automatically at specific points in Claude Code’s lifecycle. Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly
+[Hooks](https://code.claude.com/docs/en/hooks) are user-defined shell commands or LLM prompts that execute automatically at specific points in Claude Code’s lifecycle. Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly.
+
+### Hook events
+
+| Event | When it fires |
+|-------|---------------|
+| `SessionStart` | When a session begins or resumes |
+| `UserPromptSubmit` | When you submit a prompt, before Claude processes it |
+| `PreToolUse` | Before a tool call executes. Can block it |
+| `PermissionRequest` | When a permission dialog appears |
+| `PostToolUse` | After a tool call succeeds |
+| `PostToolUseFailure` | After a tool call fails |
+| `Notification` | When Claude Code sends a notification |
+| `SubagentStart` / `SubagentStop` | When a subagent is spawned / finishes |
+| `Stop` | When Claude finishes responding |
+| `TeammateIdle` | When an agent team teammate goes idle |
+| `TaskCompleted` | When a task is marked as completed |
+| `ConfigChange` | When a configuration file changes during a session |
+| `WorktreeCreate` / `WorktreeRemove` | When a worktree is created / removed |
+| `PreCompact` | Before context compaction |
+| `SessionEnd` | When a session terminates |
+
+### Hook types
+
+| Type | Description |
+|------|-------------|
+| `command` | Run a shell command |
+| `prompt` | Single LLM call to evaluate a condition (returns `{"ok": true/false, "reason": "..."}`) |
+| `agent` | Subagent with tool access for multi-step verification (up to 50 turns) |
+
+### How hooks work
+
+Claude Code passes event data as JSON to stdin. Your script reads it, acts, then signals via exit code:
+
+- **Exit 0** — proceed. For `UserPromptSubmit`/`SessionStart`, stdout is added to Claude’s context.
+- **Exit 2** — block the action. Write a reason to stderr; Claude receives it as feedback.
+- **Other codes** — proceed; stderr is logged only.
+
+For structured control, exit 0 and print JSON to stdout:
+
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "Use rg instead of grep"
+  }
+}
+```
+
+`permissionDecision` options: `"allow"`, `"deny"`, `"ask"`.
+
+### Matchers
+
+Matchers are regex patterns that filter when a hook fires (matched against tool name, session source, etc.):
+
+| Event | Matches on |
+|-------|-----------|
+| `PreToolUse`, `PostToolUse`, `PermissionRequest` | tool name (e.g. `Bash`, `Edit\|Write`, `mcp__.*`) |
+| `SessionStart` | how session started: `startup`, `resume`, `clear`, `compact` |
+| `SessionEnd` | reason: `clear`, `logout`, `prompt_input_exit`, `other` |
+| `Notification` | type: `permission_prompt`, `idle_prompt`, `auth_success` |
+| `PreCompact` | trigger: `manual`, `auto` |
+| `ConfigChange` | source: `user_settings`, `project_settings`, `skills` |
+
+### Common examples
+
+**Desktop notification** (Linux) — add to `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send ‘Claude Code’ ‘Claude Code needs your attention’"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Auto-format after edits** — add to `.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r ‘.tool_input.file_path’ | xargs npx prettier --write"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Block edits to protected files** — create `.claude/hooks/protect-files.sh`:
+
+```bash
+#!/bin/bash
+INPUT=$(cat)
+FILE_PATH=$(echo "$INPUT" | jq -r ‘.tool_input.file_path // empty’)
+PROTECTED_PATTERNS=(".env" "package-lock.json" ".git/")
+
+for pattern in "${PROTECTED_PATTERNS[@]}"; do
+  if [[ "$FILE_PATH" == *"$pattern"* ]]; then
+    echo "Blocked: $FILE_PATH matches protected pattern ‘$pattern’" >&2
+    exit 2
+  fi
+done
+exit 0
+```
+
+Then register in `.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/protect-files.sh" }]
+      }
+    ]
+  }
+}
+```
+
+**Re-inject context after compaction** — runs after `/compact`:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo ‘Reminder: use Bun, not npm. Run bun test before committing. Current sprint: auth refactor.’"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Prompt-based hook** — uses a Claude model (Haiku by default) for judgment:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if all tasks are complete. If not, respond with {\"ok\": false, \"reason\": \"what remains\"}."
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Agent-based hook** — spawns a subagent that can read files and run commands:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "agent",
+            "prompt": "Verify that all unit tests pass. Run the test suite and check results.",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Hook location (scope)
+
+| Location | Scope |
+|----------|-------|
+| `~/.claude/settings.json` | All your projects (user) |
+| `.claude/settings.json` | Current project, shareable via git |
+| `.claude/settings.local.json` | Current project, gitignored |
+| Plugin `hooks/hooks.json` | When plugin is enabled |
+
+### Tips
+
+- Use `jq` to parse JSON input (`brew install jq` / `apt-get install jq`)
+- Make hook scripts executable: `chmod +x .claude/hooks/my-hook.sh`
+- Toggle verbose mode with `Ctrl+O` to see hook output in transcript
+- Avoid unconditional `echo` in `~/.zshrc`/`~/.bashrc` — it contaminates hook JSON output. Wrap them: `if [[ $- == *i* ]]; then echo "..."; fi`
+- To prevent infinite loops in `Stop` hooks, check `stop_hook_active` from input: if `true`, exit 0.
 
 ## 9. [Plugins](https://code.claude.com/docs/en/plugins)
 
-Run `/plugin` to browse the marketplace. Plugins add skills, tools, and integrations without configuration.
+Plugins extend Claude Code with skills, agents, hooks, and MCP servers — packaged for sharing across projects and teams. Run `/plugin` to browse and install from marketplaces.
+
+### Standalone vs plugins
+
+| Approach | Skill names | Best for |
+|----------|-------------|----------|
+| **Standalone** (`.claude/` directory) | `/hello` | Personal workflows, single project, quick experiments |
+| **Plugin** (`.claude-plugin/plugin.json`) | `/my-plugin:hello` | Sharing with team, distributing, reusable across projects |
+
+**Tip**: Start with standalone `.claude/` for iteration, then convert to a plugin when ready to share.
+
+### Plugin structure
+
+```
+my-plugin/
+├── .claude-plugin/
+│   └── plugin.json       # manifest (name, description, version)
+├── skills/               # agent skills (SKILL.md files)
+├── agents/               # custom agent definitions
+├── commands/             # slash commands (Markdown files)
+├── hooks/
+│   └── hooks.json        # event hooks
+├── .mcp.json             # MCP server configs
+├── .lsp.json             # LSP server configs
+└── settings.json         # default settings when plugin is enabled
+```
+
+> **Common mistake**: Only `plugin.json` goes inside `.claude-plugin/`. All other dirs (`skills/`, `agents/`, `hooks/`, etc.) must be at the plugin root.
+
+### Create a plugin
+
+**1. Create manifest** at `my-plugin/.claude-plugin/plugin.json`:
+
+```json
+{
+  "name": "my-plugin",
+  "description": "My custom plugin",
+  "version": "1.0.0",
+  "author": { "name": "Your Name" }
+}
+```
+
+The `name` field becomes the skill namespace (e.g. `/my-plugin:hello`).
+
+**2. Add a skill** at `my-plugin/skills/hello/SKILL.md`:
+
+```markdown
+---
+description: Greet the user with a friendly message
+---
+
+Greet the user named "$ARGUMENTS" warmly and ask how you can help them today.
+```
+
+**3. Test locally** with `--plugin-dir`:
+
+```bash
+claude --plugin-dir ./my-plugin
+# Then try: /my-plugin:hello Alex
+```
+
+Load multiple plugins at once:
+
+```bash
+claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
+```
+
+### Ship default settings
+
+`settings.json` at the plugin root applies config when the plugin is enabled. Currently only the `agent` key is supported — it activates one of the plugin's agents as the main thread:
+
+```json
+{ "agent": "security-reviewer" }
+```
+
+### Convert standalone → plugin
+
+```bash
+mkdir -p my-plugin/.claude-plugin
+# Create plugin.json with name/description/version
+cp -r .claude/commands my-plugin/
+cp -r .claude/agents my-plugin/
+cp -r .claude/skills my-plugin/
+# Migrate hooks from settings.json → my-plugin/hooks/hooks.json
+```
+
+After migration, remove originals from `.claude/` to avoid duplicates.
 
 ## 10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session)
 
