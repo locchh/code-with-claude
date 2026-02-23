@@ -78,7 +78,7 @@ Define specialized assistants in `.claude/agents/` that Claude can delegate to f
 
 ## 6. [Agent teams](https://code.claude.com/docs/en/agent-teams)
 
-## 7. [MCP](https://code.claude.com/docs/en/mcp)
+## 7. [MCP](https://code.claude.com/docs/en/mcp) ✅
 
 Usage:
 
