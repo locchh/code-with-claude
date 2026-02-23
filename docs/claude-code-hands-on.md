@@ -194,6 +194,12 @@ From there, Claude creates a team with a [shared task list](https://code.claude.
 - **message**: send a message to one specific teammate
 - **broadcast**: send to all teammates simultaneously. Use sparingly, as costs scale with team size.
 
+The lead can assign tasks explicitly, or teammates can self-claim:
+
+- **Lead assigns**: tell the lead which task to give to which teammate
+- **Self-claim**: after finishing a task, a teammate picks up the next unassigned, unblocked task on its own
+
+
 **Step 5: Clean up**
 
 When you done, exit claude code and kill tmux session. To gracefully end a teammate’s session:
