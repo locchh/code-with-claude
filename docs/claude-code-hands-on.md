@@ -186,7 +186,7 @@ After enabling agent teams, tell Claude to create an agent team and describe the
 ```
 I'm designing a CLI tool that helps developers track TODO comments across
 their codebase. Create an agent team to explore this from different angles: one
-teammate on UX, one on technical architecture, one playing devil's advocate.
+teammate on UX, one on technical architecture, one playing devil's advocate. Use model Haiku for each teammate.
 ```
 
 You can specific model for teammate by:
