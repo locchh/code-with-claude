@@ -219,11 +219,27 @@ Run `claude --resume` to pick up where you left off, or `--resume` to choose fro
 
 Run `claude --continue` to resume the most recent conversation.
 
-Monitor your context window usage with `/context`.
-
 Monitor your usage with `/usage`.
 
 Use `/rename` to give sessions descriptive names ("oauth-migration", "debugging-memory-leak") so you can find them later. Treat sessions like branches - different workstreams can have separate, persistent contexts.
+
+Monitor your context window usage with `/context`.
+
+Install the Claude Code extension/plugin in your IDE first, then use `/ide` in an external terminal to connect Claude Code to your running IDE. The plugin monitors your editor state and automatically shares:
+- Currently open file path, selected text, and cursor position
+- IDE diagnostics (lint errors, type errors, etc.)
+
+`/ide` is only needed when running Claude Code in an **external terminal** (outside the IDE) — it connects the terminal session to your running IDE. If you're using Claude Code in the IDE's built-in terminal, context is shared automatically without `/ide`.
+
+Once connected, Claude uses MCP IDE tools (like `getDiagnostics`) to query the IDE for diagnostics and other info.
+
+To reference specific lines from multiple files, use `@file#line-range` syntax in your prompt:
+
+```
+@src/auth.js#10-20 and @src/models/User.ts#5-15
+```
+
+You can combine multiple file references in a single prompt.
 
 ## 11. Custom slash commands ✅
 
