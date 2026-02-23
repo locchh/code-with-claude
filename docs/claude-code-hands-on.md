@@ -70,8 +70,7 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 ## 4. [Skills](https://code.claude.com/docs/en/skills)
 
-Create `SKILL.md`
- files in `.claude/skills/` to give Claude domain knowledge and reusable workflows.
+Create `SKILL.md` file and skill folder at project scope in `.claude/skills/` or user scope in `~/.claude/skills/` to give Claude domain knowledge and reusable workflows.
 
 ## 5. [Subagents](https://code.claude.com/docs/en/sub-agents) ✅
 
@@ -239,3 +238,18 @@ Custom slash commands have been merged into skills. A file at `.claude/commands/
 - [Plannotator](https://github.com/backnotprop/plannotator)
 - [BMAD](https://github.com/bmad-code-org/BMAD-METHOD)
 - [Spec-kit](https://github.com/github/spec-kit)
+
+## 14. Claude code on GitHub ✅
+
+Claude Code supports 3 commands related to GitHub:
+
+- `/install-github-app` Set up Claude GitHub Actions for a repository (pre-requisites: `gh cli` with `workflow` scope)
+- `/fix-issue` Fix a GitHub issue (project)
+- `/pr-comments` Get comments from a GitHub pull request
+
+After connecting Claude with GitHub, you can run `/install-github-app` to install the Claude GitHub App. Claude will create a workflow file in your repository for each one you select.
+
+- @Claude Code - Tag @claude in issues and PR comments
+- Claude Code Review - Automated code review on new PRs
+
+[more details](https://github.com/marketplace/actions/claude-code-action-official)
