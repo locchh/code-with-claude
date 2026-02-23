@@ -80,7 +80,105 @@ Define specialized assistants in `.claude/agents/` that Claude can delegate to f
 
 ## 7. [MCP](https://code.claude.com/docs/en/mcp)
 
-Run `claude mcp add` to connect external tools like Notion, Figma, or your database.
+Usage:
+
+```bash
+claude mcp [options] [command]
+```
+
+Configure and manage MCP servers
+
+Options: `-h, --help` Display help for command
+
+Commands:
+
+Add an MCP server to Claude Code
+
+```bash
+add [options] <name> <commandOrUrl> [args...]
+```
+
+Examples:
+
+```bash
+# Add HTTP server:
+claude mcp add --transport http sentry https://mcp.sentry.dev/mcp
+
+# Add HTTP server with headers:
+claude mcp add --transport http corridor https://app.corridor.dev/api/mcp --header "Authorization: Bearer ..."
+
+# Add stdio server with environment variables:
+claude mcp add -e API_KEY=xxx my-server -- npx my-mcp-server
+```
+
+Other commands:
+
+- `add-from-claude-desktop [options]` - Import MCP servers from Claude Desktop (Mac and WSL only)
+- `add-json [options] <name> <json>` - Add an MCP server (stdio or SSE) with a JSON string
+- `get <name>` - Get details about an MCP server
+- `help [command]` - display help for command
+- `list` - List configured MCP servers
+- `remove [options] <name>` - Remove an MCP server
+- `reset-project-choices` - Reset all approved and rejected project-scoped (.mcp.json) servers within this project
+- `serve [options]` - Start the Claude Code MCP server
+
+Here's an example using `add-json`:
+
+```bash
+# Add a stdio server (e.g., filesystem MCP):
+claude mcp add-json filesystem '{"type":"stdio","command":"npx","args":["-y","@modelcontextprotocol/server-filesystem","/tmp"]}'
+
+# Add an SSE server:
+claude mcp add-json my-sse-server '{"type":"sse","url":"https://example.com/sse"}'
+
+# Add with scope (user = all projects):
+claude mcp add-json -s user my-server '{"type":"stdio","command":"npx","args":["-y","my-mcp-server"],"env":{"API_KEY":"xxx"}}'
+```
+
+The JSON schema for the value:
+
+```json
+{
+    "type": "stdio",          // or "sse"
+    "command": "npx",         // stdio only: executable
+    "args": ["-y", "pkg"],    // stdio only: arguments
+    "env": { "KEY": "val" },  // optional env vars
+    "url": "https://..."      // sse only: endpoint URL
+  }
+```
+
+`add-json` is useful when you have a full server config to paste in one shot, rather than building it up with flags.
+
+There are three scopes:
+
+| Scope | Flag | Location |
+|--------|------|----------|
+| local (default) | (none) | ~/.claude.json (per-project) |
+| user | -s user | ~/.claude.json (global) |
+| project | -s project | .mcp.json (committed to repo) |
+
+For example, if you want context7 available in all your projects, use `-s user`:
+
+```bash
+claude mcp add --transport http -s user context7 https://mcp.context7.com/mcp \
+    --header "CONTEXT7_API_KEY: ctx7sk-..."
+```
+
+Both `local` and `user` are stored in `~/.claude.json` but:                                                                      
+
+| Scope | local (default) | user |
+|---|---|---|
+| Availability | Current project only | All projects globally |
+| Tied to | Current working directory | Your user account |
+| File | `~/.claude.json` (with project path key) | `~/.claude.json` (global entry) |
+| Usage | "I want this MCP server only when I'm working in this specific project directory." | "I want this MCP server available everywhere, in every project." |
+
+Example of run command on local scope:
+
+```bash
+claude mcp add -s user search-papers -- uv --directory /home/locch/Works/mcp-server-papers run mcp_server_papers
+```
+After add, you can run `claude mcp serve` to start the server and run `claude mcp list` to see the list of servers.
 
 ## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide)
 

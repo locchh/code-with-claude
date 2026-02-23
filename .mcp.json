@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "docs-langchain": {
+      "disabled": false,
+      "type": "http",
+      "url": "https://docs.langchain.com/mcp"
+    }
+  }
+}
