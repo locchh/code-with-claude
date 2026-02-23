@@ -41,7 +41,7 @@ Claude Code has two kinds of memory that persist across sessions:
 
 - [Auto memory](https://code.claude.com/docs/en/memory#auto-memory): Claude automatically saves useful context like project patterns, key commands, and your preferences. This persists across sessions.
 
-- **CLAUDE.md files**: Markdown files you write and maintain with instructions, rules, and preferences for Claude to follow.
+- [CLAUDE.md files](https://code.claude.com/docs/en/best-practices#write-an-effective-claude-md): Markdown files you write and maintain with instructions, rules, and preferences for Claude to follow.
 
 Both are loaded into Claude’s context at the start of every session, though auto memory loads only the first 200 lines of its main file.
 
@@ -55,8 +55,6 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 | User memory | ~/.claude/CLAUDE.md | Personal preferences for all projects | Code styling preferences, personal tooling shortcuts | Just you (all projects) |
 | Project memory (local) | ./CLAUDE.local.md | Personal project-specific preferences | Your sandbox URLs, preferred test data | Just you (current project) |
 | Auto memory | ~/.claude/projects/<project>/memory/ | Claude’s automatic notes and learnings | Project patterns, debugging insights, architecture notes | Just you (per project) |
-
-### CLAUDE.md
 
 `/init` to create CLAUDE.md file
 
