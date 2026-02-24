@@ -153,6 +153,15 @@ agent: Explore # Subagent type when context: fork
 
 ### Arguments
 
+Skills support string substitution for dynamic values in the skill content:
+
+| Variable | Description |
+|----------|-------------|
+| `$ARGUMENTS` | All arguments passed when invoking the skill. If `$ARGUMENTS` is not present in the content, arguments are appended as `ARGUMENTS: <value>`. |
+| `$ARGUMENTS[N]` | Access a specific argument by 0-based index, such as `$ARGUMENTS[0]` for the first argument. |
+| `$N` | Shorthand for `$ARGUMENTS[N]`, such as `$0` for the first argument or `$1` for the second. |
+| `${CLAUDE_SESSION_ID}` | The current session ID. Useful for logging, creating session-specific files, or correlating skill output with sessions. |
+
 Use `$ARGUMENTS` (all args), `$ARGUMENTS[N]` or `$N` (by position):
 
 ```yaml
