@@ -199,6 +199,13 @@ Summarize this pull request.
 
 ### Run in a subagent
 
+Skills and subagents work together in two directions:
+
+| Approach | System prompt | Task | Also loads |
+|----------|---------------|------|------------|
+| Skill with context: fork | From agent type (Explore, Plan, etc.) | SKILL.md content | CLAUDE.md |
+| Subagent with skills field | Subagent's markdown body | Claude's delegation message | Preloaded skills + CLAUDE.md |
+
 Add `context: fork` to isolate a skill from your conversation history. The skill content becomes the subagent's prompt:
 
 ```yaml
@@ -226,6 +233,30 @@ name: session-logger
 Log the following to logs/${CLAUDE_SESSION_ID}.log:
 $ARGUMENTS
 ```
+
+### Restrict Claude’s skill access
+
+By default, Claude can invoke any skill that doesn’t have `disable-model-invocation: true` set. Skills that define `allowed-tools` grant Claude access to those tools without per-use approval when the skill is active. Three ways to control which skills Claude can invoke:
+
+- **Disable all skills** by denying the Skill tool in `/permissions`:
+
+```
+# Add to deny rules:
+Skill
+```
+
+- **Allow or deny specific skills** using permission rules:
+
+```
+# Allow only specific skills
+Skill(commit)
+Skill(review-pr *)
+
+# Deny specific skills
+Skill(deploy *)
+```
+
+- **Hide individual skills** by adding `disable-model-invocation: true` to their frontmatter. This removes the skill from Claude’s context entirely.
 
 ## <a id="5-subagents"></a>5. [Subagents](https://code.claude.com/docs/en/sub-agents) [↑](#table-of-contents)
 
