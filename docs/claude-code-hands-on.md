@@ -878,14 +878,24 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 
 ```bash
 mkdir -p my-plugin/.claude-plugin
-# Create plugin.json with name/description/version
+# Create the manifest file at my-plugin/.claude-plugin/plugin.json
 cp -r .claude/commands my-plugin/
 cp -r .claude/agents my-plugin/
 cp -r .claude/skills my-plugin/
-# Migrate hooks from settings.json → my-plugin/hooks/hooks.json
+# Create my-plugin/hooks/hooks.json with your hooks configuration.
+# Copy the hooks object from your .claude/settings.json or settings.local.json
 ```
 
 After migration, remove originals from `.claude/` to avoid duplicates.
+
+What changes when migrating:
+
+| Feature | Standalone (.claude/) | Plugin |
+|---------|----------------------|--------|
+| Availability | Only available in one project | Can be shared via marketplaces |
+| Commands location | Files in .claude/commands/ | Files in plugin-name/commands/ |
+| Hooks configuration | Hooks in settings.json | Hooks in hooks/hooks.json |
+| Sharing method | Must manually copy to share | Install with /plugin install |
 
 ## <a id="10-manage-your-session"></a>10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session) [↑](#table-of-contents)
 
