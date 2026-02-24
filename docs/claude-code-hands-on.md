@@ -501,7 +501,7 @@ exit 0
 }
 ```
 
-For decisions that require judgment rather than deterministic rules, use type: "prompt" hooks. Instead of running a shell command, this example uses a Stop hook to ask the model whether all requested tasks are complete:
+- For decisions that require judgment rather than deterministic rules, use type: "prompt" hooks. Instead of running a shell command, this example uses a Stop hook to ask the model whether all requested tasks are complete:
 
 ```json
 {
@@ -559,17 +559,6 @@ For decisions that require judgment rather than deterministic rules, use type: "
 | `WorktreeCreate` / `WorktreeRemove` | When a worktree is created / removed |
 | `PreCompact` | Before context compaction |
 | `SessionEnd` | When a session terminates |
-
-### Hook locations
-
-| Location | Scope | Shareable |
-|----------|-------|----------|
-| `~/.claude/settings.json` | All your projects | No, local to your machine |
-| `.claude/settings.json` | Single project | Yes, can be committed to the repo |
-| `.claude/settings.local.json` | Single project | No, gitignored |
-| Managed policy settings | Organization-wide | Yes, admin-controlled |
-| Plugin hooks/hooks.json | When plugin is enabled | Yes, bundled with the plugin |
-| Skill or agent frontmatter | While the component is active | Yes, defined in the component file |
 
 ### Hook types
 
