@@ -87,9 +87,136 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 ## <a id="4-skills"></a>4. [Skills](https://code.claude.com/docs/en/skills) [↑](#table-of-contents)
 
-Create `SKILL.md` file and skill folder at project scope in `.claude/skills/` or user scope in `~/.claude/skills/` to give Claude domain knowledge and reusable workflows.
+Create `SKILL.md` file and skill folder at project scope in `.claude/skills/` or user scope in `~/.claude/skills/` to give Claude domain knowledge and reusable workflows. Invoke a skill directly with `/skill-name` or let Claude load it automatically when relevant.
 
-**Tip**: You should pair-working with Claude for a task first, then after the end of session, asking claude to create a skill for the task.
+> Skills follow the [Agent Skills](https://agentskills.io) open standard, compatible across multiple AI tools.
+
+**Tip**: Pair-work with Claude for a task first, then after the session ends, ask Claude to create a skill for it (see [`/skill-creator`](../my-first-plugin/skills/hello/)).
+
+### File structure
+
+```
+my-skill/
+├── SKILL.md           # Main instructions (required)
+├── reference.md       # Detailed docs — loaded only when needed
+├── examples/
+│   └── sample.md      # Example output
+└── scripts/
+    └── helper.sh      # Script Claude can execute
+```
+
+> Keep `SKILL.md` under 500 lines. Move detailed reference material to separate files.
+
+### Where skills live
+
+| Location   | Path                                     | Scope                          |
+| :--------- | :--------------------------------------- | :----------------------------- |
+| Enterprise | Managed settings                         | All users in your organization |
+| Personal   | `~/.claude/skills/<skill-name>/SKILL.md` | All your projects              |
+| Project    | `.claude/skills/<skill-name>/SKILL.md`   | This project only              |
+| Plugin     | `<plugin>/skills/<skill-name>/SKILL.md`  | Where plugin is installed      |
+
+Plugin skills use a `plugin-name:skill-name` namespace so they never conflict with other levels.
+
+### SKILL.md frontmatter
+
+```yaml
+---
+name: my-skill # Becomes the /slash-command
+description: What this skill does # Claude uses this to decide when to load it
+argument-hint: "[issue-number]" # Shown in autocomplete
+disable-model-invocation: true # Only you can invoke (not Claude automatically)
+user-invocable: false # Only Claude can invoke (hidden from / menu)
+allowed-tools: Read, Grep, Glob # Tools allowed without per-use approval
+context: fork # Run in isolated subagent context
+agent: Explore # Subagent type when context: fork
+---
+```
+
+| Field                      | Default           | Description                                  |
+| :------------------------- | :---------------- | :------------------------------------------- |
+| `name`                     | directory name    | Lowercase, hyphens, max 64 chars             |
+| `description`              | first paragraph   | Helps Claude decide when to auto-load        |
+| `disable-model-invocation` | `false`           | Prevent Claude from triggering automatically |
+| `user-invocable`           | `true`            | Set `false` to hide from `/` menu            |
+| `allowed-tools`            | —                 | Comma-separated tool names                   |
+| `context`                  | —                 | `fork` to run in a subagent                  |
+| `agent`                    | `general-purpose` | `Explore`, `Plan`, or custom agent name      |
+
+### Invocation control
+
+| Frontmatter                      | You invoke | Claude invokes | Context loaded                               |
+| :------------------------------- | :--------- | :------------- | :------------------------------------------- |
+| (default)                        | Yes        | Yes            | Description always; full skill on invocation |
+| `disable-model-invocation: true` | Yes        | No             | Not in context                               |
+| `user-invocable: false`          | No         | Yes            | Description always; full skill on invocation |
+
+### Arguments
+
+Use `$ARGUMENTS` (all args), `$ARGUMENTS[N]` or `$N` (by position):
+
+```yaml
+---
+name: fix-issue
+disable-model-invocation: true
+---
+Fix GitHub issue $ARGUMENTS following our coding standards.
+```
+
+```yaml
+---
+name: migrate-component
+---
+Migrate the $0 component from $1 to $2.
+```
+
+### Dynamic context injection
+
+Use `` !`command` `` to run shell commands before the skill is sent to Claude — output replaces the placeholder:
+
+```yaml
+---
+name: pr-summary
+context: fork
+agent: Explore
+allowed-tools: Bash(gh *)
+---
+
+- PR diff: !`gh pr diff`
+- PR comments: !`gh pr view --comments`
+
+Summarize this pull request.
+```
+
+### Run in a subagent
+
+Add `context: fork` to isolate a skill from your conversation history. The skill content becomes the subagent's prompt:
+
+```yaml
+---
+name: deep-research
+context: fork
+agent: Explore
+---
+
+Research $ARGUMENTS thoroughly:
+1. Find relevant files using Glob and Grep
+2. Read and analyze the code
+3. Summarize findings with file references
+```
+
+### Session ID variable
+
+Use `${CLAUDE_SESSION_ID}` for logging or session-specific files:
+
+```yaml
+---
+name: session-logger
+---
+
+Log the following to logs/${CLAUDE_SESSION_ID}.log:
+$ARGUMENTS
+```
 
 ## <a id="5-subagents"></a>5. [Subagents](https://code.claude.com/docs/en/sub-agents) [↑](#table-of-contents)
 
@@ -890,12 +1017,12 @@ After migration, remove originals from `.claude/` to avoid duplicates.
 
 What changes when migrating:
 
-| Feature | Standalone (.claude/) | Plugin |
-|---------|----------------------|--------|
-| Availability | Only available in one project | Can be shared via marketplaces |
-| Commands location | Files in .claude/commands/ | Files in plugin-name/commands/ |
-| Hooks configuration | Hooks in settings.json | Hooks in hooks/hooks.json |
-| Sharing method | Must manually copy to share | Install with /plugin install |
+| Feature             | Standalone (.claude/)         | Plugin                         |
+| ------------------- | ----------------------------- | ------------------------------ |
+| Availability        | Only available in one project | Can be shared via marketplaces |
+| Commands location   | Files in .claude/commands/    | Files in plugin-name/commands/ |
+| Hooks configuration | Hooks in settings.json        | Hooks in hooks/hooks.json      |
+| Sharing method      | Must manually copy to share   | Install with /plugin install   |
 
 ## <a id="10-manage-your-session"></a>10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session) [↑](#table-of-contents)
 
@@ -945,6 +1072,8 @@ You can combine multiple file references in a single prompt.
 For built-in commands like /help and /compact, see [interactive mode](https://code.claude.com/docs/en/interactive-mode#built-in-commands).
 
 Custom slash commands have been merged into skills. A file at `.claude/commands/review.md` and a skill at `.claude/skills/review/SKILL.md` both create `/review` and work the same way. Your existing `.claude/commands/` files keep working. Skills add optional features: a directory for supporting files, frontmatter to [control whether you or Claude invokes them](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill), and the ability for Claude to load them automatically when relevant.
+
+Files in `.claude/commands/` still work and support the same frontmatter. Skills are recommended since they support additional features like supporting files.
 
 ## <a id="12-worktrees"></a>12. [Worktrees](https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees) [↑](#table-of-contents)
 
