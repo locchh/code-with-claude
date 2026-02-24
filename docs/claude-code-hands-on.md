@@ -339,7 +339,7 @@ After add, you can run `claude mcp serve` to start the server and run `claude mc
 
 ## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide)
 
-[Hooks](https://code.claude.com/docs/en/hooks) are user-defined shell commands or LLM prompts that execute automatically at specific points in Claude Code’s lifecycle. Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly.
+[Hooks](https://code.claude.com/docs/en/hooks) are user-defined shell commands or LLM prompts that execute automatically at specific points in Claude Code’s lifecycle. Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly. The fastest way to create a hook is through the `/hooks` interactive menu in Claude Code. This walkthrough creates a desktop notification hook, so you get alerted whenever Claude is waiting for your input instead of watching the terminal.
 
 ### Hook events
 
@@ -361,13 +361,62 @@ After add, you can run `claude mcp serve` to start the server and run `claude mc
 | `PreCompact` | Before context compaction |
 | `SessionEnd` | When a session terminates |
 
+### Hook locations
+
+| Location | Scope | Shareable |
+|----------|-------|----------|
+| `~/.claude/settings.json` | All your projects | No, local to your machine |
+| `.claude/settings.json` | Single project | Yes, can be committed to the repo |
+| `.claude/settings.local.json` | Single project | No, gitignored |
+| Managed policy settings | Organization-wide | Yes, admin-controlled |
+| Plugin hooks/hooks.json | When plugin is enabled | Yes, bundled with the plugin |
+| Skill or agent frontmatter | While the component is active | Yes, defined in the component file |
+
 ### Hook types
+
+Example:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__memory__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Memory operation initiated' >> ~/mcp-operations.log"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*__write.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/user/scripts/validate-mcp-write.py"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 | Type | Description |
 |------|-------------|
 | `command` | Run a shell command |
 | `prompt` | Single LLM call to evaluate a condition (returns `{"ok": true/false, "reason": "..."}`) |
 | `agent` | Subagent with tool access for multi-step verification (up to 50 turns) |
+
+These fields apply to all hook types:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| type | yes | "command", "prompt", or "agent" |
+| timeout | no | Seconds before canceling. Defaults: 600 for command, 30 for prompt, 60 for agent |
+| statusMessage | no | Custom spinner message displayed while the hook runs |
+| once | no | If true, runs only once per session then is removed. Skills only, not agents. See Hooks in skills and agents |
 
 ### How hooks work
 
@@ -539,12 +588,14 @@ Then register in `.claude/settings.json`:
 
 ### Hook location (scope)
 
-| Location | Scope |
-|----------|-------|
-| `~/.claude/settings.json` | All your projects (user) |
-| `.claude/settings.json` | Current project, shareable via git |
-| `.claude/settings.local.json` | Current project, gitignored |
-| Plugin `hooks/hooks.json` | When plugin is enabled |
+| Location | Scope | Shareable |
+|----------|-------|----------|
+| ~/.claude/settings.json | All your projects | No, local to your machine |
+| .claude/settings.json | Single project | Yes, can be committed to the repo |
+| .claude/settings.local.json | Single project | No, gitignored |
+| Managed policy settings | Organization-wide | Yes, admin-controlled |
+| Plugin hooks/hooks.json | When plugin is enabled | Yes, bundled with the plugin |
+| Skill or agent frontmatter | While the component is active | Yes, defined in the component file |
 
 ### Tips
 
