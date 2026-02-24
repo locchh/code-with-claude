@@ -17,17 +17,19 @@
 
 ---
 
-## Skills, Plugins and Actions
+## Skills, Hooks, Plugins and Actions
 
-- [Official Anthropic Skills](https://github.com/anthropics/skills) — Official skill repository by Anthropic
+- [Official Anthropic Skills](https://github.com/anthropics/skills) — The Swiss Army knife everyone talks about. Brainstorming, debugging, TDD enforcement, execution planning - all with slash commands.
+- [Superpowers](https://github.com/obra/superpowers) — A collection of skills for Claude Code
+- [Skill Seekers](https://github.com/yusufkaraaslan/Skill_Seekers) — A collection of skills for Claude Code - Point it at ANY documentation site, PDF, or codebase. It auto-generates a Claude Skill.
+- [Awesome Claude Skills](https://github.com/BehiSecc/awesome-claude-skills) — A collection of skills for Claude Code - A curated list of Claude Skills.
+- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — A curated list of awesome skills, hooks, slash-commands, agent orchestrators, applications, and plugins for Claude Code by Anthropic.
 - [ai1-skills](https://github.com/hieutrtr/ai1-skills) — Community-built skill collection on GitHub
 - [AI Templates Skills](https://www.aitmpl.com/skills) — Skill templates and examples
 - [SkillsMP](https://skillsmp.com/) — Skills marketplace
 - [Claude Marketplaces](https://claudemarketplaces.com/) — Browse and share Claude plugins
 - [Official Anthropic Plugins](https://github.com/anthropics/claude-plugins-official) — Official plugin repository by Anthropic
-
 - [Claude Code Actions](https://github.com/anthropics/claude-code-action) — Claude Code Actions
-
 ---
 
 ## Planning & Specification Tools
