@@ -1,10 +1,6 @@
 # Claude Code Hands-On Guide
 
-[Quick Start](https://code.claude.com/docs/en/quickstart)
-
-[Common Workflows](https://code.claude.com/docs/en/common-workflows)
-
-[Best Practices](https://code.claude.com/docs/en/best-practices)
+[Quick Start](https://code.claude.com/docs/en/quickstart) → [Common Workflows](https://code.claude.com/docs/en/common-workflows) → [Best Practices](https://code.claude.com/docs/en/best-practices) → [Build with Claude Code](https://code.claude.com/docs/en/sub-agents) → [Reference](https://code.claude.com/docs/en/cli-reference)
 
 ## Table of Contents
 
