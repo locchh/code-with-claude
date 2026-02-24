@@ -9,11 +9,11 @@
 | 5 | `tmux kill-session -t <session_name>` | Kill specific session |
 | 6 | `Ctrl + b, %` | Split window vertically |
 | 7 | `Ctrl + b, "` | Split window horizontally |
-| 8 | `Ctrl + b, ← → | ↑ ↓` | Navigate between panes |
+| 8 | `Ctrl + b, ← → / ↑ ↓` | Navigate between panes |
 | 9 | `Ctrl + b, q` | Show pane numbers |
 | 10 | `Ctrl + b, q + number` | Go to pane by number |
-| 11 | `Ctrl + b, Ctrl + ← → | ↑ ↓` | Resize pane |
-| 12 | `Ctrl + b, Alt + number` | Go to window by number |
+| 11 | `Ctrl + b, Ctrl + ← → / ↑ ↓` | Resize pane |
+| 12 | `Ctrl + b, <number>` | Go to window by number |
 | 13 | `Ctrl + b, c` | Create new window |
 | 14 | `Ctrl + b, ,` | Rename window |
 | 15 | `Ctrl + b, w` | List windows |
