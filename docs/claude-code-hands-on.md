@@ -8,19 +8,19 @@
 
 ## Table of Contents
 
-- [1. Settings](#1-settings) ✅
-- [2. Plan Mode, Extended Thinking](#2-plan-mode-extended-thinking) ✅
-- [3. Memory](#3-memory) ✅
-- [4. Skills](#4-skills) ✅
-- [5. Subagents](#5-subagents) ✅
-- [6. Agent teams](#6-agent-teams) ✅
-- [7. MCP](#7-mcp) ✅
-- [8. Hooks](#8-hooks) ✅
-- [9. Plugins](#9-plugins) ✅
-- [10. Manage your session](#10-manage-your-session) ✅
-- [11. Custom slash commands](#11-custom-slash-commands) ✅
-- [12. Worktrees](#12-worktrees) ✅
-- [13. Claude code on GitHub](#13-claude-code-on-github) ✅
+- [1. Settings](#1-settings)
+- [2. Plan Mode, Extended Thinking](#2-plan-mode-extended-thinking)
+- [3. Memory](#3-memory)
+- [4. Skills](#4-skills)
+- [5. Subagents](#5-subagents)
+- [6. Agent teams](#6-agent-teams)
+- [7. MCP](#7-mcp)
+- [8. Hooks](#8-hooks)
+- [9. Plugins](#9-plugins)
+- [10. Manage your session](#10-manage-your-session)
+- [11. Custom slash commands](#11-custom-slash-commands)
+- [12. Worktrees](#12-worktrees)
+- [13. Claude code on GitHub](#13-claude-code-on-github)
 - [14. Spec-driven](#14-spec-driven) 🔥
 
 ## 1. [Settings](https://code.claude.com/docs/en/settings)
@@ -340,6 +340,205 @@ After add, you can run `claude mcp serve` to start the server and run `claude mc
 ## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide)
 
 [Hooks](https://code.claude.com/docs/en/hooks) are user-defined shell commands or LLM prompts that execute automatically at specific points in Claude Code’s lifecycle. Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly. The fastest way to create a hook is through the `/hooks` interactive menu in Claude Code. This walkthrough creates a desktop notification hook, so you get alerted whenever Claude is waiting for your input instead of watching the terminal.
+
+### What you can automate
+
+- Get notified when Claude needs input
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send 'Claude Code' 'Claude Code needs your attention'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- Auto-format code after edits (run [Prettier](https://prettier.io/docs/))
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | xargs npx prettier --write"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- Block edits to protected files
+
+```bash
+#!/bin/bash
+# protect-files.sh
+
+INPUT=$(cat)
+FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
+
+PROTECTED_PATTERNS=(".env" "package-lock.json" ".git/")
+
+for pattern in "${PROTECTED_PATTERNS[@]}"; do
+  if [[ "$FILE_PATH" == *"$pattern"* ]]; then
+    echo "Blocked: $FILE_PATH matches protected pattern '$pattern'" >&2
+    exit 2
+  fi
+done
+
+exit 0
+
+# chmod +x .claude/hooks/protect-files.sh
+```
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/protect-files.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- Re-inject context after compaction
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Reminder: use Bun, not npm. Run bun test before committing. Current sprint: auth refactor.'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- Audit configuration changes
+
+```json
+{
+  "hooks": {
+    "ConfigChange": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '{timestamp: now | todate, source: .source, file: .file_path}' >> ~/claude-config-audit.log"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- Without a matcher, a hook fires on every occurrence of its event. Matchers let you narrow that down. For example:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "prettier --write ..." }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- Match only Bash tool calls and log each command to a file:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command' >> ~/.claude/command-log.txt"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+For decisions that require judgment rather than deterministic rules, use type: "prompt" hooks. Instead of running a shell command, this example uses a Stop hook to ask the model whether all requested tasks are complete:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if all tasks are complete. If not, respond with {\"ok\": false, \"reason\": \"what remains to be done\"}."
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- When verification requires inspecting files or running commands, use type: "agent" hooks:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "agent",
+            "prompt": "Verify that all unit tests pass. Run the test suite and check the results. $ARGUMENTS",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ### Hook events
 
