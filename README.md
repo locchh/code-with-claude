@@ -32,7 +32,7 @@
 
 ## Planning & Specification Tools
 
-- [Plan Notator](https://plannotator.ai/) — AI-assisted planning and annotation
+- [Plannotator](https://plannotator.ai/) — AI-assisted planning and annotation
 - [BMAD Method](https://docs.bmad-method.org/) — A structured methodology for AI-driven development
 - [SpecKit](https://speckit.org/) — Specification toolkit for AI projects
 - [SpecKit GitHub](https://github.github.com/spec-kit/) — SpecKit source and docs
