@@ -23,7 +23,7 @@
 - [13. Claude code on GitHub](#13-claude-code-on-github)
 - [14. Spec-driven](#14-spec-driven) 🔥
 
-## 1. [Settings](https://code.claude.com/docs/en/settings)
+## 1. [Settings](https://code.claude.com/docs/en/settings) [↑](#table-of-contents)
 
 Claude Code uses a scope system to determine where configurations apply and who they’re shared with.
 
@@ -45,14 +45,14 @@ Scopes apply to many Claude Code features:
 | Plugins | `~/.claude/settings.json` | `.claude/settings.json` | `.claude/settings.local.json` |
 | CLAUDE.md | `~/.claude/CLAUDE.md` | `CLAUDE.md` or `.claude/CLAUDE.md` | `CLAUDE.local.md` |
 
-## 2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), [Extended Thinking](https://code.claude.com/docs/en/common-workflows#use-extended-thinking-thinking-mode)
+## 2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), [Extended Thinking](https://code.claude.com/docs/en/common-workflows#use-extended-thinking-thinking-mode) [↑](#table-of-contents)
 
 - `Shift-Tab` x2 to toggle thinking mode
 - Press `Ctrl+G` to view and edit plan 
 - `"Think hard"` to force extended thinking
 - Press `Cmd+O` to display the thinking
 
-## 3. [Memory](https://code.claude.com/docs/en/memory)
+## 3. [Memory](https://code.claude.com/docs/en/memory) [↑](#table-of-contents)
 
 Claude Code has two kinds of memory that persist across sessions:
 
@@ -85,13 +85,13 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 - Child directories: Claude pulls in child `CLAUDE.md` files on demand when working with files in those directories
 
-## 4. [Skills](https://code.claude.com/docs/en/skills)
+## 4. [Skills](https://code.claude.com/docs/en/skills) [↑](#table-of-contents)
 
 Create `SKILL.md` file and skill folder at project scope in `.claude/skills/` or user scope in `~/.claude/skills/` to give Claude domain knowledge and reusable workflows.
 
 **Tip**: You should pair-working with Claude for a task first, then after the end of session, asking claude to create a skill for the task.
 
-## 5. [Subagents](https://code.claude.com/docs/en/sub-agents)
+## 5. [Subagents](https://code.claude.com/docs/en/sub-agents) [↑](#table-of-contents)
 
 Define specialized assistants at project scope in `.claude/agents/` or user scope in `~/.claude/agents/` that Claude can delegate to for isolated tasks. Use the `/agents` command to generate with Claude or configure manually. You can also create subagents manually using markdown files.
 
@@ -105,7 +105,7 @@ Define specialized assistants at project scope in `.claude/agents/` or user scop
 
 Or all tools.
 
-## 6. [Agent teams](https://code.claude.com/docs/en/agent-teams)
+## 6. [Agent teams](https://code.claude.com/docs/en/agent-teams) [↑](#table-of-contents)
 
 Agent teams let you coordinate multiple Claude Code instances working together. One session acts as the team lead, coordinating work, assigning tasks, and synthesizing results. Teammates work independently, each in its own context window, and communicate directly with each other. Unlike subagents, which run within a single session and can only report back to the main agent, you can also interact with individual teammates directly without going through the lead.
 
@@ -235,7 +235,7 @@ Explore related approaches for parallel work and delegation:
 - **Manual parallel sessions**: Git worktrees let you run multiple Claude Code sessions yourself without automated team coordination
 
 
-## 7. [MCP](https://code.claude.com/docs/en/mcp)
+## 7. [MCP](https://code.claude.com/docs/en/mcp) [↑](#table-of-contents)
 
 Usage:
 
@@ -337,7 +337,7 @@ claude mcp add -s user search-papers -- uv --directory /home/locch/Works/mcp-ser
 ```
 After add, you can run `claude mcp serve` to start the server and run `claude mcp list` to see the list of servers. In interactive mode use `/mcp`
 
-## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide)
+## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide) [↑](#table-of-contents)
 
 [Hooks](https://code.claude.com/docs/en/hooks) are user-defined shell commands or LLM prompts that execute automatically at specific points in Claude Code’s lifecycle. Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly. The fastest way to create a hook is through the `/hooks` interactive menu in Claude Code. This walkthrough creates a desktop notification hook, so you get alerted whenever Claude is waiting for your input instead of watching the terminal.
 
@@ -793,7 +793,7 @@ Then register in `.claude/settings.json`:
 - Avoid unconditional `echo` in `~/.zshrc`/`~/.bashrc` — it contaminates hook JSON output. Wrap them: `if [[ $- == *i* ]]; then echo "..."; fi`
 - To prevent infinite loops in `Stop` hooks, check `stop_hook_active` from input: if `true`, exit 0.
 
-## 9. [Plugins](https://code.claude.com/docs/en/plugins)
+## 9. [Plugins](https://code.claude.com/docs/en/plugins)[↑](#table-of-contents)
 
 Plugins extend Claude Code with skills, agents, hooks, and MCP servers — packaged for sharing across projects and teams. Run `/plugin` to browse and install from marketplaces.
 
@@ -883,7 +883,7 @@ cp -r .claude/skills my-plugin/
 
 After migration, remove originals from `.claude/` to avoid duplicates.
 
-## 10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session)
+## 10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session) [↑](#table-of-contents)
 
 `Esc` - Stop Claude mid-action with the Esc key.
 
@@ -925,13 +925,13 @@ To reference specific lines from multiple files, use `@file#line-range` syntax i
 
 You can combine multiple file references in a single prompt.
 
-## 11. Custom slash commands
+## 11. Custom slash commands [↑](#table-of-contents)
 
 For built-in commands like /help and /compact, see [interactive mode](https://code.claude.com/docs/en/interactive-mode#built-in-commands).
 
 Custom slash commands have been merged into skills. A file at `.claude/commands/review.md` and a skill at `.claude/skills/review/SKILL.md` both create `/review` and work the same way. Your existing `.claude/commands/` files keep working. Skills add optional features: a directory for supporting files, frontmatter to [control whether you or Claude invokes them](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill), and the ability for Claude to load them automatically when relevant.
 
-## 12. [Worktrees](https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees)
+## 12. [Worktrees](https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees) [↑](#table-of-contents)
 
 ### Basic
 
