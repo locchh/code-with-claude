@@ -23,36 +23,36 @@
 - [13. Claude code on GitHub](#13-claude-code-on-github)
 - [14. Spec-driven](#14-spec-driven) 🔥
 
-## 1. [Settings](https://code.claude.com/docs/en/settings) [↑](#table-of-contents)
+## <a id="1-settings"></a>1. [Settings](https://code.claude.com/docs/en/settings) [↑](#table-of-contents)
 
 Claude Code uses a scope system to determine where configurations apply and who they’re shared with.
 
-| Scope | Location | Who it affects | Shared with team? |
-|-------|----------|----------------|-------------------|
-| Managed | System-level `managed-settings.json` | All users on the machine | Yes (deployed by IT) |
-| User | `~/.claude/` directory | You, across all projects | No |
-| Project | `.claude/` in repository | All collaborators on this repository | Yes (committed to git) |
-| Local | `.claude/*.local.*` files | You, in this repository only | No (gitignored) |
+| Scope   | Location                             | Who it affects                       | Shared with team?      |
+| ------- | ------------------------------------ | ------------------------------------ | ---------------------- |
+| Managed | System-level `managed-settings.json` | All users on the machine             | Yes (deployed by IT)   |
+| User    | `~/.claude/` directory               | You, across all projects             | No                     |
+| Project | `.claude/` in repository             | All collaborators on this repository | Yes (committed to git) |
+| Local   | `.claude/*.local.*` files            | You, in this repository only         | No (gitignored)        |
 
 Scopes apply to many Claude Code features:
 
-| Feature | User location | Project location | Local location |
-|---------|---------------|------------------|----------------|
-| Settings | `~/.claude/settings.json` | `.claude/settings.json` | `.claude/settings.local.json` |
-| Subagents | `~/.claude/agents/` | `.claude/agents/` | — |
-| Skills | `~/.claude/skills/` | `.claude/skills/` | — |
-| MCP servers | `~/.claude.json` | `.mcp.json` | `~/.claude.json` (per-project) |
-| Plugins | `~/.claude/settings.json` | `.claude/settings.json` | `.claude/settings.local.json` |
-| CLAUDE.md | `~/.claude/CLAUDE.md` | `CLAUDE.md` or `.claude/CLAUDE.md` | `CLAUDE.local.md` |
+| Feature     | User location             | Project location                   | Local location                 |
+| ----------- | ------------------------- | ---------------------------------- | ------------------------------ |
+| Settings    | `~/.claude/settings.json` | `.claude/settings.json`            | `.claude/settings.local.json`  |
+| Subagents   | `~/.claude/agents/`       | `.claude/agents/`                  | —                              |
+| Skills      | `~/.claude/skills/`       | `.claude/skills/`                  | —                              |
+| MCP servers | `~/.claude.json`          | `.mcp.json`                        | `~/.claude.json` (per-project) |
+| Plugins     | `~/.claude/settings.json` | `.claude/settings.json`            | `.claude/settings.local.json`  |
+| CLAUDE.md   | `~/.claude/CLAUDE.md`     | `CLAUDE.md` or `.claude/CLAUDE.md` | `CLAUDE.local.md`              |
 
-## 2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), [Extended Thinking](https://code.claude.com/docs/en/common-workflows#use-extended-thinking-thinking-mode) [↑](#table-of-contents)
+## <a id="2-plan-mode-extended-thinking"></a>2. [Plan Mode](https://code.claude.com/docs/en/common-workflows#use-plan-mode-for-safe-code-analysis), [Extended Thinking](https://code.claude.com/docs/en/common-workflows#use-extended-thinking-thinking-mode) [↑](#table-of-contents)
 
 - `Shift-Tab` x2 to toggle thinking mode
-- Press `Ctrl+G` to view and edit plan 
+- Press `Ctrl+G` to view and edit plan
 - `"Think hard"` to force extended thinking
 - Press `Cmd+O` to display the thinking
 
-## 3. [Memory](https://code.claude.com/docs/en/memory) [↑](#table-of-contents)
+## <a id="3-memory"></a>3. [Memory](https://code.claude.com/docs/en/memory) [↑](#table-of-contents)
 
 Claude Code has two kinds of memory that persist across sessions:
 
@@ -64,14 +64,14 @@ Both are loaded into Claude’s context at the start of every session, though au
 
 Claude Code offers several memory locations in a hierarchical structure, each serving a different purpose:
 
-| Memory Type | Location | Purpose | Use Case Examples | Shared With |
-|-------------|----------|---------|-------------------|-------------|
-| Managed policy | • macOS: /Library/Application Support/ClaudeCode/CLAUDE.md<br>• Linux: /etc/claude-code/CLAUDE.md<br>• Windows: C:\Program Files\ClaudeCode\CLAUDE.md | Organization-wide instructions managed by IT/DevOps | Company coding standards, security policies, compliance requirements | All users in organization |
-| Project memory | ./CLAUDE.md or ./.claude/CLAUDE.md | Team-shared instructions for the project | Project architecture, coding standards, common workflows | Team members via source control |
-| [Project rules](https://code.claude.com/docs/en/memory#modular-rules-with-claude/rules/) | ./.claude/rules/*.md | Modular, topic-specific project instructions | Language-specific guidelines, testing conventions, API standards | Team members via source control |
-| User memory | ~/.claude/CLAUDE.md | Personal preferences for all projects | Code styling preferences, personal tooling shortcuts | Just you (all projects) |
-| Project memory (local) | ./CLAUDE.local.md | Personal project-specific preferences | Your sandbox URLs, preferred test data | Just you (current project) |
-| Auto memory | ~/.claude/projects/<project>/memory/ | Claude’s automatic notes and learnings | Project patterns, debugging insights, architecture notes | Just you (per project) |
+| Memory Type                                                                              | Location                                                                                                                                              | Purpose                                             | Use Case Examples                                                    | Shared With                     |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------- |
+| Managed policy                                                                           | • macOS: /Library/Application Support/ClaudeCode/CLAUDE.md<br>• Linux: /etc/claude-code/CLAUDE.md<br>• Windows: C:\Program Files\ClaudeCode\CLAUDE.md | Organization-wide instructions managed by IT/DevOps | Company coding standards, security policies, compliance requirements | All users in organization       |
+| Project memory                                                                           | ./CLAUDE.md or ./.claude/CLAUDE.md                                                                                                                    | Team-shared instructions for the project            | Project architecture, coding standards, common workflows             | Team members via source control |
+| [Project rules](https://code.claude.com/docs/en/memory#modular-rules-with-claude/rules/) | ./.claude/rules/\*.md                                                                                                                                 | Modular, topic-specific project instructions        | Language-specific guidelines, testing conventions, API standards     | Team members via source control |
+| User memory                                                                              | ~/.claude/CLAUDE.md                                                                                                                                   | Personal preferences for all projects               | Code styling preferences, personal tooling shortcuts                 | Just you (all projects)         |
+| Project memory (local)                                                                   | ./CLAUDE.local.md                                                                                                                                     | Personal project-specific preferences               | Your sandbox URLs, preferred test data                               | Just you (current project)      |
+| Auto memory                                                                              | ~/.claude/projects/<project>/memory/                                                                                                                  | Claude’s automatic notes and learnings              | Project patterns, debugging insights, architecture notes             | Just you (per project)          |
 
 `/init` to create CLAUDE.md file
 
@@ -85,54 +85,56 @@ Claude Code offers several memory locations in a hierarchical structure, each se
 
 - Child directories: Claude pulls in child `CLAUDE.md` files on demand when working with files in those directories
 
-## 4. [Skills](https://code.claude.com/docs/en/skills) [↑](#table-of-contents)
+## <a id="4-skills"></a>4. [Skills](https://code.claude.com/docs/en/skills) [↑](#table-of-contents)
 
 Create `SKILL.md` file and skill folder at project scope in `.claude/skills/` or user scope in `~/.claude/skills/` to give Claude domain knowledge and reusable workflows.
 
 **Tip**: You should pair-working with Claude for a task first, then after the end of session, asking claude to create a skill for the task.
 
-## 5. [Subagents](https://code.claude.com/docs/en/sub-agents) [↑](#table-of-contents)
+## <a id="5-subagents"></a>5. [Subagents](https://code.claude.com/docs/en/sub-agents) [↑](#table-of-contents)
 
 Define specialized assistants at project scope in `.claude/agents/` or user scope in `~/.claude/agents/` that Claude can delegate to for isolated tasks. Use the `/agents` command to generate with Claude or configure manually. You can also create subagents manually using markdown files.
 
 **Tip:** When creating subagents with Claude, you only need to write a clean description of the subagent and configure the tools - Claude will generate the rest. Subagents have access to these tools:
 
 - Read-only tools
-- Edit tools  
+- Edit tools
 - Execution tools
 - MCP tools
 - Other tools
 
 Or all tools.
 
-## 6. [Agent teams](https://code.claude.com/docs/en/agent-teams) [↑](#table-of-contents)
+## <a id="6-agent-teams"></a>6. [Agent teams](https://code.claude.com/docs/en/agent-teams) [↑](#table-of-contents)
 
 Agent teams let you coordinate multiple Claude Code instances working together. One session acts as the team lead, coordinating work, assigning tasks, and synthesizing results. Teammates work independently, each in its own context window, and communicate directly with each other. Unlike subagents, which run within a single session and can only report back to the main agent, you can also interact with individual teammates directly without going through the lead.
 
 **When to use agent teams:**
+
 - **Research and review:** Multiple teammates investigate different aspects simultaneously
-- **New modules/features:** Each teammate owns separate pieces without conflicts  
+- **New modules/features:** Each teammate owns separate pieces without conflicts
 - **Debugging with competing hypotheses:** Test different theories in parallel
 - **Cross-layer coordination:** Frontend, backend, and tests owned by different teammates
 
-| Feature | Subagents | Agent teams |
-|---------|-----------|-------------|
-| **Context** | Own context window; results return to the caller | Own context window; fully independent |
-| **Communication** | Report results back to the main agent only | Teammates message each other directly |
-| **Coordination** | Main agent manages all work | Shared task list with self-coordination |
-| **Best for** | Focused tasks where only the result matters | Complex work requiring discussion and collaboration |
-| **Token cost** | Lower: results summarized back to main context | Higher: each teammate is a separate Claude instance |
+| Feature           | Subagents                                        | Agent teams                                         |
+| ----------------- | ------------------------------------------------ | --------------------------------------------------- |
+| **Context**       | Own context window; results return to the caller | Own context window; fully independent               |
+| **Communication** | Report results back to the main agent only       | Teammates message each other directly               |
+| **Coordination**  | Main agent manages all work                      | Shared task list with self-coordination             |
+| **Best for**      | Focused tasks where only the result matters      | Complex work requiring discussion and collaboration |
+| **Token cost**    | Lower: results summarized back to main context   | Higher: each teammate is a separate Claude instance |
 
 An agent team consists of:
 
-| Component | Role |
-|-----------|------|
+| Component     | Role                                                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Team lead** | The main Claude Code session that creates the team, spawns teammates, and coordinates work. Team config `~/.claude/teams/{team-name}/config.json` |
-| **Teammates** | Separate Claude Code instances that each work on assigned tasks |
-| **Task list** | Shared list of work items that teammates claim and complete. Task list shared at `~/.claude/tasks/{team-name}/` |
-| **Mailbox** | Messaging system for communication between agents |
+| **Teammates** | Separate Claude Code instances that each work on assigned tasks                                                                                   |
+| **Task list** | Shared list of work items that teammates claim and complete. Task list shared at `~/.claude/tasks/{team-name}/`                                   |
+| **Mailbox**   | Messaging system for communication between agents                                                                                                 |
 
 You can choice display mode:
+
 - **In-process**: All teammates run in the same session
 - **Split panes**: Each teammate runs in its own pane
 
@@ -206,7 +208,6 @@ The lead can assign tasks explicitly, or teammates can self-claim:
 - **Lead assigns**: tell the lead which task to give to which teammate
 - **Self-claim**: after finishing a task, a teammate picks up the next unassigned, unblocked task on its own
 
-
 **Step 5: Clean up**
 
 When you done, exit claude code and kill tmux session. To gracefully end a teammate’s session:
@@ -234,8 +235,7 @@ Explore related approaches for parallel work and delegation:
 
 - **Manual parallel sessions**: Git worktrees let you run multiple Claude Code sessions yourself without automated team coordination
 
-
-## 7. [MCP](https://code.claude.com/docs/en/mcp) [↑](#table-of-contents)
+## <a id="7-mcp"></a>7. [MCP](https://code.claude.com/docs/en/mcp) [↑](#table-of-contents)
 
 Usage:
 
@@ -296,23 +296,23 @@ The JSON schema for the value:
 
 ```json
 {
-    "type": "stdio",          // or "sse"
-    "command": "npx",         // stdio only: executable
-    "args": ["-y", "pkg"],    // stdio only: arguments
-    "env": { "KEY": "val" },  // optional env vars
-    "url": "https://..."      // sse only: endpoint URL
-  }
+  "type": "stdio", // or "sse"
+  "command": "npx", // stdio only: executable
+  "args": ["-y", "pkg"], // stdio only: arguments
+  "env": { "KEY": "val" }, // optional env vars
+  "url": "https://..." // sse only: endpoint URL
+}
 ```
 
 `add-json` is useful when you have a full server config to paste in one shot, rather than building it up with flags.
 
 There are three scopes:
 
-| Scope | Flag | Location |
-|--------|------|----------|
-| local (default) | (none) | ~/.claude.json (per-project) |
-| user | -s user | ~/.claude.json (global) |
-| project | -s project | .mcp.json (committed to repo) |
+| Scope           | Flag       | Location                      |
+| --------------- | ---------- | ----------------------------- |
+| local (default) | (none)     | ~/.claude.json (per-project)  |
+| user            | -s user    | ~/.claude.json (global)       |
+| project         | -s project | .mcp.json (committed to repo) |
 
 For example, if you want context7 available in all your projects, use `-s user`:
 
@@ -321,23 +321,24 @@ claude mcp add --transport http -s user context7 https://mcp.context7.com/mcp \
     --header "CONTEXT7_API_KEY: ctx7sk-..."
 ```
 
-Both `local` and `user` are stored in `~/.claude.json` but:                                                                      
+Both `local` and `user` are stored in `~/.claude.json` but:
 
-| Scope | local (default) | user |
-|---|---|---|
-| Availability | Current project only | All projects globally |
-| Tied to | Current working directory | Your user account |
-| File | `~/.claude.json` (with project path key) | `~/.claude.json` (global entry) |
-| Usage | "I want this MCP server only when I'm working in this specific project directory." | "I want this MCP server available everywhere, in every project." |
+| Scope        | local (default)                                                                    | user                                                             |
+| ------------ | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Availability | Current project only                                                               | All projects globally                                            |
+| Tied to      | Current working directory                                                          | Your user account                                                |
+| File         | `~/.claude.json` (with project path key)                                           | `~/.claude.json` (global entry)                                  |
+| Usage        | "I want this MCP server only when I'm working in this specific project directory." | "I want this MCP server available everywhere, in every project." |
 
 Example of run command on local scope:
 
 ```bash
 claude mcp add -s user search-papers -- uv --directory /home/locch/Works/mcp-server-papers run mcp_server_papers
 ```
+
 After add, you can run `claude mcp serve` to start the server and run `claude mcp list` to see the list of servers. In interactive mode use `/mcp`
 
-## 8. [Hooks](https://code.claude.com/docs/en/hooks-guide) [↑](#table-of-contents)
+## <a id="8-hooks"></a>8. [Hooks](https://code.claude.com/docs/en/hooks-guide) [↑](#table-of-contents)
 
 [Hooks](https://code.claude.com/docs/en/hooks) are user-defined shell commands or LLM prompts that execute automatically at specific points in Claude Code’s lifecycle. Run `/hooks` for interactive configuration, or edit `.claude/settings.json` directly. The fastest way to create a hook is through the `/hooks` interactive menu in Claude Code. This walkthrough creates a desktop notification hook, so you get alerted whenever Claude is waiting for your input instead of watching the terminal.
 
@@ -472,9 +473,7 @@ exit 0
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
-        "hooks": [
-          { "type": "command", "command": "prettier --write ..." }
-        ]
+        "hooks": [{ "type": "command", "command": "prettier --write ..." }]
       }
     ]
   }
@@ -542,23 +541,23 @@ exit 0
 
 ### Hook events
 
-| Event | When it fires |
-|-------|---------------|
-| `SessionStart` | When a session begins or resumes |
-| `UserPromptSubmit` | When you submit a prompt, before Claude processes it |
-| `PreToolUse` | Before a tool call executes. Can block it |
-| `PermissionRequest` | When a permission dialog appears |
-| `PostToolUse` | After a tool call succeeds |
-| `PostToolUseFailure` | After a tool call fails |
-| `Notification` | When Claude Code sends a notification |
-| `SubagentStart` / `SubagentStop` | When a subagent is spawned / finishes |
-| `Stop` | When Claude finishes responding |
-| `TeammateIdle` | When an agent team teammate goes idle |
-| `TaskCompleted` | When a task is marked as completed |
-| `ConfigChange` | When a configuration file changes during a session |
-| `WorktreeCreate` / `WorktreeRemove` | When a worktree is created / removed |
-| `PreCompact` | Before context compaction |
-| `SessionEnd` | When a session terminates |
+| Event                               | When it fires                                        |
+| ----------------------------------- | ---------------------------------------------------- |
+| `SessionStart`                      | When a session begins or resumes                     |
+| `UserPromptSubmit`                  | When you submit a prompt, before Claude processes it |
+| `PreToolUse`                        | Before a tool call executes. Can block it            |
+| `PermissionRequest`                 | When a permission dialog appears                     |
+| `PostToolUse`                       | After a tool call succeeds                           |
+| `PostToolUseFailure`                | After a tool call fails                              |
+| `Notification`                      | When Claude Code sends a notification                |
+| `SubagentStart` / `SubagentStop`    | When a subagent is spawned / finishes                |
+| `Stop`                              | When Claude finishes responding                      |
+| `TeammateIdle`                      | When an agent team teammate goes idle                |
+| `TaskCompleted`                     | When a task is marked as completed                   |
+| `ConfigChange`                      | When a configuration file changes during a session   |
+| `WorktreeCreate` / `WorktreeRemove` | When a worktree is created / removed                 |
+| `PreCompact`                        | Before context compaction                            |
+| `SessionEnd`                        | When a session terminates                            |
 
 ### Hook types
 
@@ -591,20 +590,20 @@ Example:
 }
 ```
 
-| Type | Description |
-|------|-------------|
-| `command` | Run a shell command |
-| `prompt` | Single LLM call to evaluate a condition (returns `{"ok": true/false, "reason": "..."}`) |
-| `agent` | Subagent with tool access for multi-step verification (up to 50 turns) |
+| Type      | Description                                                                             |
+| --------- | --------------------------------------------------------------------------------------- |
+| `command` | Run a shell command                                                                     |
+| `prompt`  | Single LLM call to evaluate a condition (returns `{"ok": true/false, "reason": "..."}`) |
+| `agent`   | Subagent with tool access for multi-step verification (up to 50 turns)                  |
 
 These fields apply to all hook types:
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| type | yes | "command", "prompt", or "agent" |
-| timeout | no | Seconds before canceling. Defaults: 600 for command, 30 for prompt, 60 for agent |
-| statusMessage | no | Custom spinner message displayed while the hook runs |
-| once | no | If true, runs only once per session then is removed. Skills only, not agents. See Hooks in skills and agents |
+| Field         | Required | Description                                                                                                  |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
+| type          | yes      | "command", "prompt", or "agent"                                                                              |
+| timeout       | no       | Seconds before canceling. Defaults: 600 for command, 30 for prompt, 60 for agent                             |
+| statusMessage | no       | Custom spinner message displayed while the hook runs                                                         |
+| once          | no       | If true, runs only once per session then is removed. Skills only, not agents. See Hooks in skills and agents |
 
 ### How hooks work
 
@@ -632,14 +631,14 @@ For structured control, exit 0 and print JSON to stdout:
 
 Matchers are regex patterns that filter when a hook fires (matched against tool name, session source, etc.):
 
-| Event | Matches on |
-|-------|-----------|
-| `PreToolUse`, `PostToolUse`, `PermissionRequest` | tool name (e.g. `Bash`, `Edit\|Write`, `mcp__.*`) |
-| `SessionStart` | how session started: `startup`, `resume`, `clear`, `compact` |
-| `SessionEnd` | reason: `clear`, `logout`, `prompt_input_exit`, `other` |
-| `Notification` | type: `permission_prompt`, `idle_prompt`, `auth_success` |
-| `PreCompact` | trigger: `manual`, `auto` |
-| `ConfigChange` | source: `user_settings`, `project_settings`, `skills` |
+| Event                                            | Matches on                                                   |
+| ------------------------------------------------ | ------------------------------------------------------------ |
+| `PreToolUse`, `PostToolUse`, `PermissionRequest` | tool name (e.g. `Bash`, `Edit\|Write`, `mcp__.*`)            |
+| `SessionStart`                                   | how session started: `startup`, `resume`, `clear`, `compact` |
+| `SessionEnd`                                     | reason: `clear`, `logout`, `prompt_input_exit`, `other`      |
+| `Notification`                                   | type: `permission_prompt`, `idle_prompt`, `auth_success`     |
+| `PreCompact`                                     | trigger: `manual`, `auto`                                    |
+| `ConfigChange`                                   | source: `user_settings`, `project_settings`, `skills`        |
 
 ### Common examples
 
@@ -708,7 +707,12 @@ Then register in `.claude/settings.json`:
     "PreToolUse": [
       {
         "matcher": "Edit|Write",
-        "hooks": [{ "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/protect-files.sh" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/protect-files.sh"
+          }
+        ]
       }
     ]
   }
@@ -776,14 +780,14 @@ Then register in `.claude/settings.json`:
 
 ### Hook location (scope)
 
-| Location | Scope | Shareable |
-|----------|-------|----------|
-| `~/.claude/settings.json` | All your projects | No, local to your machine |
-| `.claude/settings.json` | Single project | Yes, can be committed to the repo |
-| `.claude/settings.local.json` | Single project | No, gitignored |
-| Managed policy settings | Organization-wide | Yes, admin-controlled |
-| Plugin hooks/hooks.json | When plugin is enabled | Yes, bundled with the plugin |
-| Skill or agent frontmatter | While the component is active | Yes, defined in the component file |
+| Location                      | Scope                         | Shareable                          |
+| ----------------------------- | ----------------------------- | ---------------------------------- |
+| `~/.claude/settings.json`     | All your projects             | No, local to your machine          |
+| `.claude/settings.json`       | Single project                | Yes, can be committed to the repo  |
+| `.claude/settings.local.json` | Single project                | No, gitignored                     |
+| Managed policy settings       | Organization-wide             | Yes, admin-controlled              |
+| Plugin hooks/hooks.json       | When plugin is enabled        | Yes, bundled with the plugin       |
+| Skill or agent frontmatter    | While the component is active | Yes, defined in the component file |
 
 ### Tips
 
@@ -793,15 +797,15 @@ Then register in `.claude/settings.json`:
 - Avoid unconditional `echo` in `~/.zshrc`/`~/.bashrc` — it contaminates hook JSON output. Wrap them: `if [[ $- == *i* ]]; then echo "..."; fi`
 - To prevent infinite loops in `Stop` hooks, check `stop_hook_active` from input: if `true`, exit 0.
 
-## 9. [Plugins](https://code.claude.com/docs/en/plugins)[↑](#table-of-contents)
+## <a id="9-plugins"></a>9. [Plugins](https://code.claude.com/docs/en/plugins) [↑](#table-of-contents)
 
 Plugins extend Claude Code with skills, agents, hooks, and MCP servers — packaged for sharing across projects and teams. Run `/plugin` to browse and install from marketplaces.
 
 ### Standalone vs plugins
 
-| Approach | Skill names | Best for |
-|----------|-------------|----------|
-| **Standalone** (`.claude/` directory) | `/hello` | Personal workflows, single project, quick experiments |
+| Approach                                  | Skill names        | Best for                                                  |
+| ----------------------------------------- | ------------------ | --------------------------------------------------------- |
+| **Standalone** (`.claude/` directory)     | `/hello`           | Personal workflows, single project, quick experiments     |
 | **Plugin** (`.claude-plugin/plugin.json`) | `/my-plugin:hello` | Sharing with team, distributing, reusable across projects |
 
 **Tip**: Start with standalone `.claude/` for iteration, then convert to a plugin when ready to share.
@@ -883,7 +887,7 @@ cp -r .claude/skills my-plugin/
 
 After migration, remove originals from `.claude/` to avoid duplicates.
 
-## 10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session) [↑](#table-of-contents)
+## <a id="10-manage-your-session"></a>10. [Manage your session](https://code.claude.com/docs/en/best-practices#manage-your-session) [↑](#table-of-contents)
 
 `Esc` - Stop Claude mid-action with the Esc key.
 
@@ -910,6 +914,7 @@ Use `/rename` to give sessions descriptive names ("oauth-migration", "debugging-
 Monitor your context window usage with `/context`.
 
 Install the Claude Code extension/plugin in your IDE first, then use `/ide` in an external terminal to connect Claude Code to your running IDE. The plugin monitors your editor state and automatically shares:
+
 - Currently open file path, selected text, and cursor position
 - IDE diagnostics (lint errors, type errors, etc.)
 
@@ -925,19 +930,20 @@ To reference specific lines from multiple files, use `@file#line-range` syntax i
 
 You can combine multiple file references in a single prompt.
 
-## 11. Custom slash commands [↑](#table-of-contents)
+## <a id="11-custom-slash-commands"></a>11. Custom slash commands [↑](#table-of-contents)
 
 For built-in commands like /help and /compact, see [interactive mode](https://code.claude.com/docs/en/interactive-mode#built-in-commands).
 
 Custom slash commands have been merged into skills. A file at `.claude/commands/review.md` and a skill at `.claude/skills/review/SKILL.md` both create `/review` and work the same way. Your existing `.claude/commands/` files keep working. Skills add optional features: a directory for supporting files, frontmatter to [control whether you or Claude invokes them](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill), and the ability for Claude to load them automatically when relevant.
 
-## 12. [Worktrees](https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees) [↑](#table-of-contents)
+## <a id="12-worktrees"></a>12. [Worktrees](https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees) [↑](#table-of-contents)
 
 ### Basic
 
 Git worktree is a feature of Git that lets you check out multiple branches of the same repository at the same time — in different folders.
 
 Traditional `git checkout`:
+
 ```bash
 git checkout -b feature-x
 # work
@@ -946,6 +952,7 @@ git merge feature-x
 ```
 
 Use `git worktree`:
+
 ```bash
 git worktree add -b feature-x ../feature-x
 # work in ../feature-x
@@ -957,14 +964,14 @@ Comparation
 | Topic             | `git checkout` | `git worktree`       |
 | ----------------- | -------------- | -------------------- |
 | HEADs             | One            | Multiple             |
-| Parallel branches | ❌              | ✅                  |
+| Parallel branches | ❌             | ✅                   |
 | Stash needed      | Often          | Rare                 |
 | Context switching | High           | Low                  |
 | Disk usage        | Low            | Low (shared objects) |
 | Mental load       | Higher         | Lower                |
 
-
 Create a new worktree. Use `git worktree add <folder> <branch>`:
+
 ```bash
 # Create a new folder ../main-fix
 # Checkout branch main inside it
@@ -972,6 +979,7 @@ git worktree add ../main-fix main
 ```
 
 If branch doesn't exist. Use `git worktree add -b <branch_name> <folder>`:
+
 ```bash
 # Creates branch from current HEAD
 # Create folder ../feature-payment
@@ -994,21 +1002,25 @@ git merge feature-payment
 ```
 
 Merge the Branch:
+
 ```bash
 git merge feature-login
 ```
 
 List worktrees:
+
 ```bash
 git worktree list
 ```
 
 Remove worktree:
+
 ```bash
 git worktree remove ../main-fix
 ```
 
 There are multiplace to store worktrees:
+
 - Windsurf keep it in `~/.windsurf/worktrees/<repo_name>`
 - Git keep it in `~/.git/worktrees/<repo_name>`
 - Claude code keep it in `~/.claude/worktrees/<repo_name>`
@@ -1029,7 +1041,7 @@ claude --worktree bugfix-123
 claude --worktree
 ```
 
-When you run a command like  `claude --worktree feature-auth` it similar to `git worktree add -b feature-auth ../feature-auth main` or if the branch already exists `git worktree add ../feature-auth feature-auth`. Worktrees are created at `<repo>/.claude/worktrees/<name>` and branch from the default remote branch. The worktree branch is named `worktree-<name>`.
+When you run a command like `claude --worktree feature-auth` it similar to `git worktree add -b feature-auth ../feature-auth main` or if the branch already exists `git worktree add ../feature-auth feature-auth`. Worktrees are created at `<repo>/.claude/worktrees/<name>` and branch from the default remote branch. The worktree branch is named `worktree-<name>`.
 
 Subagents can also use worktree isolation to work in parallel without conflicts. Ask Claude like this:
 
@@ -1050,7 +1062,7 @@ cd ../myapp
 git merge feature-x
 ```
 
-## 13. Claude code on GitHub
+## <a id="13-claude-code-on-github"></a>13. Claude code on GitHub [↑](#table-of-contents)
 
 Claude Code supports 3 commands related to GitHub:
 
@@ -1065,7 +1077,7 @@ After connecting Claude with GitHub, you can run `/install-github-app` to instal
 
 [more details](https://github.com/marketplace/actions/claude-code-action-official)
 
-## 14. Spec-driven
+## <a id="14-spec-driven"></a>14. Spec-driven [↑](#table-of-contents)
 
 - [Plannotator](https://github.com/backnotprop/plannotator)
 - [BMAD](https://github.com/bmad-code-org/BMAD-METHOD)
