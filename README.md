@@ -44,5 +44,5 @@
 ## Frameworks & Miscellaneous
 
 - [tmux](https://github.com/tmux/tmux/wiki) — Terminal multiplexer for session management
-
+- [pm2](https://pm2.keymetrics.io/) — Process manager for Node.js applications
 - [LangChain Deep Agents CLI](https://docs.langchain.com/oss/python/deepagents/cli/overview) — CLI overview for LangChain's deep agent system
