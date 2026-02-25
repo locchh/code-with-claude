@@ -1255,5 +1255,7 @@ After connecting Claude with GitHub, you can run `/install-github-app` to instal
 ## <a id="14-spec-driven"></a>14. Spec-driven [↑](#table-of-contents)
 
 - [Plannotator](https://github.com/backnotprop/plannotator)
-- [BMAD](https://github.com/bmad-code-org/BMAD-METHOD)
 - [Spec-kit](https://github.com/github/spec-kit)
+- [BMAD](https://github.com/bmad-code-org/BMAD-METHOD)
+- [Design OS](https://github.com/buildermethods/design-os)
+- [Agent OS](https://github.com/buildermethods/agent-os)
