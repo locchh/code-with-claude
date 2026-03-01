@@ -34,13 +34,11 @@
 
 ## Planning & Specification Tools
 
-- [Design OS](https://github.com/buildermethods/design-os)
-- [Agent OS](https://github.com/buildermethods/agent-os)
 - [Plannotator](https://plannotator.ai/) — AI-assisted planning and annotation
-- [BMAD Method](https://docs.bmad-method.org/) — A structured methodology for AI-driven development
 - [SpecKit](https://speckit.org/) — Specification toolkit for AI projects
-- [SpecKit GitHub](https://github.github.com/spec-kit/) — SpecKit source and docs
-
+- [BMAD Method](https://docs.bmad-method.org/) — A structured methodology for AI-driven development
+- [Design OS](https://github.com/buildermethods/design-os) - Agent OS helps you shape better specs, keeps agents aligned in a lightweight system that fits how you already build.
+- [Agent OS](https://buildermethods.com/agent-os) - Agent OS helps you shape better specs, keeps agents aligned in a lightweight system that fits how you already build.
 ---
 
 ## Frameworks & Miscellaneous
