@@ -1,6 +1,27 @@
 # Linux Commands
 
-## 1. Navigation
+## Table of Contents
+
+- [1. Navigation](#1-navigation)
+- [2. Files](#2-files)
+- [3. Directories](#3-directories)
+- [4. Text Processing](#4-text-processing)
+- [5. Permissions](#5-permissions)
+- [6. User Management](#6-user-management)
+- [7. Package Management](#7-package-management)
+- [8. Help & Documentation](#8-help--documentation)
+- [9. Archive](#9-archive)
+- [10. Network](#10-network)
+- [11. System Info](#11-system-info)
+- [12. Process Management](#12-process-management)
+- [13. Services](#13-services)
+- [14. Session](#14-session)
+- [15. Extras](#15-extras)
+- [16. Git](#16-git)
+- [17. Docker](#17-docker)
+- [18. Kubernetes](#18-kubernetes)
+
+## <a id="1-navigation"></a>1. Navigation [↑](#table-of-contents)
 
 ### `ssh` — Connect to a remote machine securely
 
@@ -43,7 +64,7 @@ clear
 
 ---
 
-## 2. Files
+## <a id="2-files"></a>2. Files [↑](#table-of-contents)
 
 ### `touch` — Create empty file(s) or update timestamp
 
@@ -165,7 +186,7 @@ find . -mtime -7                 # modified in last 7 days
 
 ---
 
-## 3. Directories
+## <a id="3-directories"></a>3. Directories [↑](#table-of-contents)
 
 ### `mkdir` — Create a directory
 
@@ -182,7 +203,7 @@ rmdir myfolder
 
 ---
 
-## 4. Text Processing
+## <a id="4-text-processing"></a>4. Text Processing [↑](#table-of-contents)
 
 ### `sort` — Sort lines of a file
 
@@ -211,7 +232,7 @@ awk '/pattern/ {print}' file.txt            # print matching lines
 
 ---
 
-## 5. Permissions
+## <a id="5-permissions"></a>5. Permissions [↑](#table-of-contents)
 
 ### `chmod` — Change file permissions
 
@@ -231,7 +252,7 @@ chown -R user:group folder/
 
 ---
 
-## 6. User Management
+## <a id="6-user-management"></a>6. User Management [↑](#table-of-contents)
 
 ### `whoami` — Show the current logged-in user
 
@@ -283,7 +304,7 @@ exit
 
 ---
 
-## 7. Package Management
+## <a id="7-package-management"></a>7. Package Management [↑](#table-of-contents)
 
 ### `apt` — Debian/Ubuntu package manager
 
@@ -297,7 +318,7 @@ sudo apt search keyword
 
 ---
 
-## 8. Help & Documentation
+## <a id="8-help--documentation"></a>8. Help & Documentation [↑](#table-of-contents)
 
 ### `finger` — Display info about a user
 
@@ -322,7 +343,7 @@ whatis grep
 
 ---
 
-## 9. Archive
+## <a id="9-archive"></a>9. Archive [↑](#table-of-contents)
 
 ### `zip` — Compress files into a zip archive
 
@@ -340,7 +361,7 @@ unzip archive.zip -d /target/    # extract to a specific directory
 
 ---
 
-## 10. Network
+## <a id="10-network"></a>10. Network [↑](#table-of-contents)
 
 ### `curl` — Transfer data from or to a URL
 
@@ -412,7 +433,7 @@ sudo ufw deny 80                 # deny HTTP
 
 ---
 
-## 11. System Info
+## <a id="11-system-info"></a>11. System Info [↑](#table-of-contents)
 
 ### `uname` — Print system information
 
@@ -453,7 +474,7 @@ df -h /home                      # specific mount point
 
 ---
 
-## 12. Process Management
+## <a id="12-process-management"></a>12. Process Management [↑](#table-of-contents)
 
 ### `ps` — Snapshot of running processes
 
@@ -493,7 +514,7 @@ pkill -9 nginx                   # force kill by name
 
 ---
 
-## 13. Services
+## <a id="13-services"></a>13. Services [↑](#table-of-contents)
 
 ### `systemctl` — Manage systemd services
 
@@ -508,7 +529,7 @@ sudo systemctl disable nginx
 
 ---
 
-## 14. Session
+## <a id="14-session"></a>14. Session [↑](#table-of-contents)
 
 ### `history` — Show command history
 
@@ -536,7 +557,7 @@ sudo shutdown -r now             # reboot immediately
 
 ---
 
-## 15. Extras
+## <a id="15-extras"></a>15. Extras [↑](#table-of-contents)
 
 ### `lazydocker` — Terminal UI for managing Docker containers
 
@@ -569,7 +590,7 @@ glances --export influxdb        # export metrics
 
 ---
 
-## 16. Git
+## <a id="16-git"></a>16. Git [↑](#table-of-contents)
 
 ### `git init` — Initialize a new repository
 
@@ -678,7 +699,7 @@ git reset --hard HEAD~1          # undo last commit and discard changes
 
 ---
 
-## 17. Docker
+## <a id="17-docker"></a>17. Docker [↑](#table-of-contents)
 
 ### `docker ps` — List running containers
 
@@ -760,7 +781,7 @@ docker compose ps
 
 ---
 
-## 18.Kubernetes
+## <a id="18-kubernetes"></a>18. Kubernetes [↑](#table-of-contents)
 
 ### `kubectl get` — List resources
 
